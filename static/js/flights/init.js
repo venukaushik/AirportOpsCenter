@@ -2,23 +2,25 @@
    FLIGHTS MODULE - INIT
    init.js
    ============================================================ */
-console.log("init.js loaded");
 
 import { generateFlights } from "./generator.js";
-import { renderFlights } from "./render.js";
+import { renderFlights } from "./renderer.js";
+import { initializeDrawer } from "./drawer.js";
 import { initializeFilters } from "./filters.js";
 import { initializeSorting } from "./sorting.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM Ready");
 
-  generateFlights();
+    console.log("Flights Module Initialized");
 
-  console.log("Flights generated:", flights);
-  
-  initializeFilters();
+    generateFlights();
 
-  initializeSorting();
+    initializeDrawer();
 
-  renderFlights();
+    initializeFilters();
+
+    initializeSorting();
+
+    renderFlights();
+
 });

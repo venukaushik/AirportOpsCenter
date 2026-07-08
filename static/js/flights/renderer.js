@@ -2,112 +2,124 @@
    FLIGHTS MODULE - RENDERER
    renderer.js
    ============================================================ */
-import { flights } from "./generator.js";
 
-export function renderFlights(data = flights) {
-  const tableBody = document.getElementById("flightTableBody");
+import { flightStore } from "./store.js";
+import { formatTimeHHMM } from "./utils.js";
+import { openDrawer } from "./drawer.js";
 
-  if (!tableBody) return;
+/* ============================================================
+   RENDER FLIGHTS
+   ============================================================ */
 
-  tableBody.innerHTML = "";
+export function renderFlights() {
 
-  data.forEach((flight) => {
-    const row = document.createElement("tr");
+    const tableBody = document.getElementById("flightTableBody");
 
-    const flightIcon =
-      flight.type === "Arrival"
-        ? '<i class="fas fa-plane-arrival"></i>'
-        : '<i class="fas fa-plane-departure"></i>';
+    if (!tableBody) return;
 
-    const estimatedClass =
-      flight.timing === "EARLY"
-        ? "time-early"
-        : flight.timing === "DELAYED"
-          ? "time-delayed"
-          : "";
+    tableBody.innerHTML = "";
 
-    let statusClass = "";
+    flightStore.filteredFlights.forEach((flight) => {
 
-switch (flight.status) {
-    case "Scheduled":
-        statusClass = "scheduled";
-        break;
+        const row = document.createElement("tr");
 
-    case "Estimated":
-        statusClass = "landing";
-        break;
+        const flightIcon =
+            flight.type === "Arrival"
+                ? '<i class="fas fa-plane-arrival"></i>'
+                : '<i class="fas fa-plane-departure"></i>';
 
-    case "Boarding":
-        statusClass = "boarding";
-        break;
+        const estimatedClass =
+            flight.timing === "EARLY"
+                ? "time-early"
+                : flight.timing === "DELAYED"
+                    ? "time-delayed"
+                    : "";
 
-    case "Gate Open":
-        statusClass = "checkin";
-        break;
+        let statusClass = "";
 
-    case "Check-in Open":
-        statusClass = "checkin";
-        break;
+        switch (flight.status) {
 
-    case "Final Call":
-        statusClass = "finalcall";
-        break;
+            case "Scheduled":
+                statusClass = "scheduled";
+                break;
 
-    case "Delayed":
-        statusClass = "delayed";
-        break;
+            case "Estimated":
+                statusClass = "landing";
+                break;
 
-    case "Landed":
-        statusClass = "landing";
-        break;
+            case "Boarding":
+                statusClass = "boarding";
+                break;
 
-    case "Arrived":
-        statusClass = "arrived";
-        break;
+            case "Gate Open":
+                statusClass = "checkin";
+                break;
 
-    case "Departed":
-        statusClass = "departed";
-        break;
+            case "Check-in Open":
+                statusClass = "checkin";
+                break;
 
-    default:
-        statusClass = "scheduled";
-}
+            case "Final Call":
+                statusClass = "finalcall";
+                break;
 
-    row.innerHTML = `
-    <td>${flight.flightNumber}</td>
+            case "Delayed":
+                statusClass = "delayed";
+                break;
 
-    <td>${flight.airline.name}</td>
+            case "Landed":
+                statusClass = "landing";
+                break;
 
-    <td>${flightIcon} &nbsp; ${flight.type}</td>
+            case "Arrived":
+                statusClass = "arrived";
+                break;
 
-    <td>${flight.route}</td>
+            case "Departed":
+                statusClass = "departed";
+                break;
 
-    <td>${formatTimeHHMM(flight.scheduledTime)}</td>
+            default:
+                statusClass = "scheduled";
 
-    <td class="${estimatedClass}">
-        ${formatTimeHHMM(flight.estimatedTime)}
-    </td>
+        }
 
-    <td>${flight.gate ?? "-"}</td>
+        row.innerHTML = `
+            <td>${flight.flightNumber}</td>
 
-    <td>${flight.belt ?? "-"}</td>
+            <td>${flight.airline.name}</td>
 
-    <td>${flight.aircraft}</td>
+            <td>${flightIcon} &nbsp; ${flight.type}</td>
 
-    <td>
-        <span class="status ${statusClass}">
-            ${flight.status}
-        </span>
-    </td>
-`;
+            <td>${flight.route}</td>
 
-    tableBody.appendChild(row);
-    row.addEventListener("click", () => {
+            <td>${formatTimeHHMM(flight.scheduledTime)}</td>
 
-    openDrawer(flight);
+            <td class="${estimatedClass}">
+                ${formatTimeHHMM(flight.estimatedTime)}
+            </td>
 
-});
+            <td>${flight.gate ?? "-"}</td>
 
+            <td>${flight.belt ?? "-"}</td>
 
-  });
+            <td>${flight.aircraft}</td>
+
+            <td>
+                <span class="status ${statusClass}">
+                    ${flight.status}
+                </span>
+            </td>
+        `;
+
+        row.addEventListener("click", () => {
+
+            openDrawer(flight);
+
+        });
+
+        tableBody.appendChild(row);
+
+    });
+
 }

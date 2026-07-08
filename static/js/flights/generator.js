@@ -1,13 +1,38 @@
 /* ============================================================
    FLIGHTS MODULE - GENERATOR
    generator.js
-   PART 1
    ============================================================ */
-console.log("generator.js loaded");
-/* ============================================================
-   GENERATED FLIGHTS
-   ============================================================ */
-export const flights = [];
+
+   import {
+    AIRLINES,
+    DOMESTIC_ROUTES,
+    INTERNATIONAL_ROUTES,
+    AIRCRAFT_TYPES,
+    GATES,
+    STANDS,
+    BELTS,
+    CHECKIN_ROWS,
+    TIMING_RULES,
+    DELAY_REASONS,
+    FLIGHT_STATUS
+} from "./data.js";
+
+import {
+    randomItem,
+    randomBoolean,
+    randomTimeToday,
+    generateFlightNumber,
+    addMinutes,
+    subtractMinutes,
+    cloneDate,
+    weightedChoice,
+    randomDelay,
+    randomInt,
+    minutesBetween,
+    generateFlightId
+} from "./utils.js";
+
+import { flightStore } from "./store.js";
 
 /* ============================================================
    CONFIGURATION
@@ -23,69 +48,84 @@ const FLIGHT_CONFIG = {
    GENERATE ALL FLIGHTS
    ============================================================ */
 
+
 export function generateFlights() {
-  flights.length = 0;
 
-  for (let i = 1; i <= FLIGHT_CONFIG.TOTAL_FLIGHTS; i++) {
-    const type = randomBoolean() ? "Arrival" : "Departure";
+    // flightStore.flights.length = 0;
 
-    const airline = randomItem(AIRLINES);
+    flightStore.flights = [];
+    // flightStore.filteredFlights = [...flightStore.flights];
 
-    const route =
-      type === "Arrival" ? randomArrivalRoute() : randomDepartureRoute();
+    for (let i = 1; i <= FLIGHT_CONFIG.TOTAL_FLIGHTS; i++) {
 
-    const scheduledTime = randomTimeToday();
+        const type = randomBoolean()
+            ? "Arrival"
+            : "Departure";
 
-    const flight = {
-      id: generateFlightId(),
+        const airline = randomItem(AIRLINES);
 
-      type: type,
+        const route = type === "Arrival"
+            ? randomArrivalRoute()
+            : randomDepartureRoute();
 
-      airline: airline,
+        const scheduledTime = randomTimeToday();
 
-      flightNumber: generateFlightNumber(airline.code),
+        const flight = {
 
-      route: route,
+            id: generateFlightId(),
 
-      terminal: randomItem(FLIGHT_CONFIG.TERMINALS),
+            type,
 
-      aircraft: randomItem(AIRCRAFT_TYPES),
+            airline,
 
-      scheduledTime: scheduledTime,
+            flightNumber: generateFlightNumber(airline.code),
 
-      estimatedTime: null,
+            route,
 
-      actualTime: null,
+            terminal: randomItem(FLIGHT_CONFIG.TERMINALS),
 
-      gate: null,
+            aircraft: randomItem(AIRCRAFT_TYPES),
 
-      stand: null,
+            scheduledTime,
 
-      belt: null,
+            estimatedTime: null,
 
-      checkIn: null,
+            actualTime: null,
 
-      timing: null,
+            gate: null,
 
-      status: FLIGHT_STATUS.SCHEDULED,
+            stand: null,
 
-      remarks: "",
+            belt: null,
 
-      delayReason: null,
-    };
+            checkIn: null,
 
-    generateEstimatedTime(flight);
+            timing: null,
 
-    assignResources(flight);
+            status: FLIGHT_STATUS.SCHEDULED,
 
-    assignStatus(flight);
+            remarks: "",
 
-    assignDelayReason(flight);
+            delayReason: null
 
-    flights.push(flight);
+        };
 
-  }
-sortFlights();
+        generateEstimatedTime(flight);
+
+        assignResources(flight);
+
+        assignStatus(flight);
+
+        assignDelayReason(flight);
+
+        flightStore.flights.push(flight);
+
+    }
+
+    sortFlights();
+
+    flightStore.filteredFlights = [...flightStore.flights];
+
 }
 
 /* ============================================================
@@ -267,9 +307,11 @@ function assignDelayReason(flight) {
    ============================================================ */
 
 function sortFlights() {
-  flights.sort((a, b) => {
-    return a.scheduledTime - b.scheduledTime;
-  });
-}
 
-window.flights = flights;
+    flightStore.flights.sort((a, b) => {
+
+        return a.scheduledTime - b.scheduledTime;
+
+    });
+
+}

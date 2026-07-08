@@ -3,139 +3,240 @@
    filters.js
    ============================================================ */
 
-let filteredFlights = [];
+import { AIRLINES } from "./data.js";
+import { flightStore } from "./store.js";
+import { generateFlights } from "./generator.js";
+import { renderFlights } from "./renderer.js";
+import {showLoader, hideLoader} from "./spinner.js";
 
 /* ============================================================
    INITIALIZE FILTERS
    ============================================================ */
 
-function initializeFilters() {
-  populateAirlineFilter();
+export function initializeFilters() {
 
-  document
-    .getElementById("flightSearch")
-    .addEventListener("input", applyFilters);
+    populateAirlineFilter();
 
-  document
-    .getElementById("flightView")
-    .addEventListener("change", applyFilters);
+    document
+        .getElementById("flightSearch")
+        .addEventListener("input", applyFilters);
 
-  document
-    .getElementById("flightStatus")
-    .addEventListener("change", applyFilters);
+    document
+        .getElementById("flightView")
+        .addEventListener("change", applyFilters);
 
-  document
-    .getElementById("airlineFilter")
-    .addEventListener("change", applyFilters);
+    document
+        .getElementById("flightStatus")
+        .addEventListener("change", applyFilters);
 
-  document
-    .getElementById("clearFilters")
-    .addEventListener("click", clearFilters);
+    document
+        .getElementById("airlineFilter")
+        .addEventListener("change", applyFilters);
 
-  document
-    .getElementById("refreshFlights")
-    .addEventListener("click", refreshFlights);
+    document
+        .getElementById("clearFilters")
+        .addEventListener("click", clearFilters);
+
+    document
+        .getElementById("refreshFlights")
+        .addEventListener("click", refreshFlights);
+
 }
+
+
+/* ============================================================
+   CLEAR FILTERS
+   ============================================================ */
 
 function clearFilters() {
-  document.getElementById("flightSearch").value = "";
-  document.getElementById("flightView").value = "all";
-  document.getElementById("flightStatus").value = "";
-  document.getElementById("airlineFilter").value = "";
-  applyFilters();
+
+    document.getElementById("flightSearch").value = "";
+
+    document.getElementById("flightView").value = "all";
+
+    document.getElementById("flightStatus").value = "";
+
+    document.getElementById("airlineFilter").value = "";
+
+    applyFilters();
+
 }
+
 
 /* ============================================================
    APPLY FILTERS
    ============================================================ */
 
-function applyFilters() {
-  const search = document.getElementById("flightSearch").value.toLowerCase();
+export function applyFilters() {
 
-  const type = document.getElementById("flightView").value;
+    const search =
+        document.getElementById("flightSearch").value.toLowerCase();
 
-  const status = document.getElementById("flightStatus").value;
+    const type =
+        document.getElementById("flightView").value;
 
-  const airline = document.getElementById("airlineFilter").value;
+    const status =
+        document.getElementById("flightStatus").value;
 
-  filteredFlights = flights.filter((flight) => {
-    const searchMatch =
-      flight.flightNumber.toLowerCase().includes(search) ||
-      flight.airline.name.toLowerCase().includes(search) ||
-      flight.route.toLowerCase().includes(search);
+    const airline =
+        document.getElementById("airlineFilter").value;
 
-    const typeMatch = type === "all" || flight.type.toLowerCase() === type;
+    flightStore.filteredFlights = flightStore.flights.filter((flight) => {
 
-    const statusMatch = status === "" || flight.status === status;
+        const searchMatch =
 
-    const airlineMatch = airline === "" || flight.airline.name === airline;
+            flight.flightNumber.toLowerCase().includes(search) ||
 
-    return searchMatch && typeMatch && statusMatch && airlineMatch;
-  });
+            flight.airline.name.toLowerCase().includes(search) ||
 
-  renderFlights(filteredFlights);
-  updateTableColumns(type);
+            flight.route.toLowerCase().includes(search);
+
+        const typeMatch =
+
+            type === "all" ||
+
+            flight.type.toLowerCase() === type;
+
+        const statusMatch =
+
+            status === "" ||
+
+            flight.status === status;
+
+        const airlineMatch =
+
+            airline === "" ||
+
+            flight.airline.name === airline;
+
+        return (
+
+            searchMatch &&
+
+            typeMatch &&
+
+            statusMatch &&
+
+            airlineMatch
+
+        );
+
+    });
+
+    renderFlights();
+
+    updateTableColumns(type);
+
 }
+
 
 /* ============================================================
    AIRLINE DROPDOWN
    ============================================================ */
 
 function populateAirlineFilter() {
-  const select = document.getElementById("airlineFilter");
 
-  AIRLINES.forEach((airline) => {
-    const option = document.createElement("option");
+    const select =
+        document.getElementById("airlineFilter");
 
-    option.value = airline.name;
+    if (!select) return;
 
-    option.textContent = airline.name;
+    select.innerHTML = '<option value="">All Airlines</option>';
 
-    select.appendChild(option);
-  });
+    AIRLINES.forEach((airline) => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = airline.name;
+
+        option.textContent = airline.name;
+
+        select.appendChild(option);
+
+    });
+
 }
+
+
+/* ============================================================
+   TABLE COLUMN VISIBILITY
+   ============================================================ */
 
 function updateTableColumns(view) {
-  const gateHeader = document.getElementById("gateHeader");
-  const beltHeader = document.getElementById("beltHeader");
 
-  const rows = document.querySelectorAll("#flightTableBody tr");
+    const gateHeader =
+        document.getElementById("gateHeader");
 
-  if (view === "arrival") {
-    gateHeader.style.display = "none";
-    beltHeader.style.display = "";
+    const beltHeader =
+        document.getElementById("beltHeader");
 
-    rows.forEach((row) => {
-      row.cells[6].style.display = "none"; // Gate
-      row.cells[7].style.display = ""; // Belt
-    });
-  } else if (view === "departure") {
-    gateHeader.style.display = "";
-    beltHeader.style.display = "none";
+    const rows =
+        document.querySelectorAll("#flightTableBody tr");
 
-    rows.forEach((row) => {
-      row.cells[6].style.display = ""; // Gate
-      row.cells[7].style.display = "none"; // Belt
-    });
-  } else {
-    gateHeader.style.display = "";
-    beltHeader.style.display = "";
+    if (view === "arrival") {
 
-    rows.forEach((row) => {
-      row.cells[6].style.display = "";
-      row.cells[7].style.display = "";
-    });
-  }
+        gateHeader.style.display = "none";
+
+        beltHeader.style.display = "";
+
+        rows.forEach((row) => {
+
+            row.cells[6].style.display = "none";
+
+            row.cells[7].style.display = "";
+
+        });
+
+    }
+
+    else if (view === "departure") {
+
+        gateHeader.style.display = "";
+
+        beltHeader.style.display = "none";
+
+        rows.forEach((row) => {
+
+            row.cells[6].style.display = "";
+
+            row.cells[7].style.display = "none";
+
+        });
+
+    }
+
+    else {
+
+        gateHeader.style.display = "";
+
+        beltHeader.style.display = "";
+
+        rows.forEach((row) => {
+
+            row.cells[6].style.display = "";
+
+            row.cells[7].style.display = "";
+
+        });
+
+    }
+
 }
 
-/* ==========================================================
+
+/* ============================================================
    REFRESH FLIGHTS
-========================================================== */
+   ============================================================ */
 
 function refreshFlights() {
+
     showLoader(
+
         "Refreshing Flights",
+
         "Generating latest flight information..."
+
     );
 
     setTimeout(() => {
@@ -146,6 +247,6 @@ function refreshFlights() {
 
         hideLoader();
 
-    }, 1500);
+    }, 1250);
 
 }

@@ -1,24 +1,26 @@
 /* ============================================================
-   FLIGHT DRAWER
+   FLIGHTS MODULE - DRAWER
    drawer.js
    ============================================================ */
 
-let selectedFlight = null;
-
+import { flightStore } from "./store.js";
+import { formatTimeHHMM, randomInt } from "./utils.js";
 
 /* ============================================================
    OPEN DRAWER
    ============================================================ */
 
-function openDrawer(flight) {
+export function openDrawer(flight) {
 
-    selectedFlight = flight;
+    flightStore.selectedFlight = flight;
 
     const drawer = document.getElementById("flightDrawer");
 
+    if (!drawer) return;
+
     drawer.classList.add("active");
 
-    loadDrawer(flight);
+    loadDrawer();
 
 }
 
@@ -27,11 +29,13 @@ function openDrawer(flight) {
    CLOSE DRAWER
    ============================================================ */
 
-function closeDrawer() {
+export function closeDrawer() {
 
-    document
-        .getElementById("flightDrawer")
-        .classList.remove("active");
+    const drawer = document.getElementById("flightDrawer");
+
+    if (!drawer) return;
+
+    drawer.classList.remove("active");
 
 }
 
@@ -40,19 +44,26 @@ function closeDrawer() {
    EVENTS
    ============================================================ */
 
-document.addEventListener("DOMContentLoaded", () => {
+export function initializeDrawer() {
 
-    document
-        .getElementById("closeDrawer")
-        .addEventListener("click", closeDrawer);
+    const closeButton = document.getElementById("closeDrawer");
 
-});
+    if (!closeButton) return;
+
+    closeButton.addEventListener("click", closeDrawer);
+
+}
+
 
 /* ============================================================
    LOAD DRAWER
    ============================================================ */
 
-function loadDrawer(flight) {
+function loadDrawer() {
+
+    const flight = flightStore.selectedFlight;
+
+    if (!flight) return;
 
     document.getElementById("drawerFlight").textContent =
         flight.flightNumber;

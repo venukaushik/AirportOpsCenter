@@ -2,7 +2,7 @@
    GLOBAL LOADER
 ========================================================== */
 
-function showLoader(
+export function showLoader(
     title = "Loading...",
     subtitle = "Please wait"
 ) {
@@ -21,7 +21,7 @@ function showLoader(
 
 }
 
-function hideLoader() {
+export function hideLoader() {
 
     document
         .getElementById("loadingOverlay")

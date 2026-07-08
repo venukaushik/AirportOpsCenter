@@ -1,138 +1,173 @@
-/* ==========================================================
-   FLIGHT SORTING
-========================================================== */
+/* ============================================================
+   FLIGHTS MODULE - SORTING
+   sorting.js
+   ============================================================ */
 
-let currentSort = "schedule";
-let currentDirection = "asc";
+import { flightStore } from "./store.js";
+import { renderFlights } from "./renderer.js";
 
-/* ==========================================================
+/* ============================================================
    SORT FIELD MAPPING
-========================================================== */
+   ============================================================ */
 
 const SORT_FIELDS = {
-  flight: (flight) => flight.flightNumber,
 
-  airline: (flight) => flight.airline?.name,
+    flight: (flight) => flight.flightNumber,
 
-  type: (flight) => flight.type,
+    airline: (flight) => flight.airline?.name,
 
-  route: (flight) => flight.route,
+    type: (flight) => flight.type,
 
-schedule: flight => flight.scheduledTime,
+    route: (flight) => flight.route,
 
-estimated: flight => flight.estimatedTime,
+    schedule: (flight) => flight.scheduledTime,
 
-  gate: (flight) => flight.gate,
+    estimated: (flight) => flight.estimatedTime,
 
-  belt: (flight) => flight.belt,
+    gate: (flight) => flight.gate,
 
-  aircraft: (flight) => flight.aircraft,
+    belt: (flight) => flight.belt,
+
+    aircraft: (flight) => flight.aircraft
+
 };
 
-/* ==========================================================
-   INITIALIZE SORTING
-========================================================== */
 
-function initializeSorting() {
-  document
-    .querySelectorAll("#flightTableHeader th[data-sort]")
-    .forEach((header) => {
-      header.addEventListener("click", () => {
-        sortFlights(header.dataset.sort);
-      });
-    });
+/* ============================================================
+   INITIALIZE SORTING
+   ============================================================ */
+
+export function initializeSorting() {
+
+    document
+        .querySelectorAll("#flightTableHeader th[data-sort]")
+        .forEach((header) => {
+
+            header.addEventListener("click", () => {
+
+                sortFlights(header.dataset.sort);
+
+            });
+
+        });
+
 }
 
-/* ==========================================================
+
+/* ============================================================
    SORT FLIGHTS
-========================================================== */
+   ============================================================ */
 
 function sortFlights(column) {
-  if (currentSort === column) {
-    currentDirection = currentDirection === "asc" ? "desc" : "asc";
-  } else {
-    currentSort = column;
-    currentDirection = "asc";
-  }
 
-  const data = filteredFlights.length > 0 ? filteredFlights : flights;
+    if (flightStore.sorting.column === column) {
 
-  data.sort((a, b) => {
-    let valueA = getSortValue(a, column);
-    let valueB = getSortValue(b, column);
+        flightStore.sorting.direction =
+            flightStore.sorting.direction === "asc"
+                ? "desc"
+                : "asc";
 
-    return compareValues(valueA, valueB);
-  });
+    }
 
-  renderFlights(data);
+    else {
 
-  updateSortIcons();
+        flightStore.sorting.column = column;
+
+        flightStore.sorting.direction = "asc";
+
+    }
+
+    flightStore.filteredFlights.sort((a, b) => {
+
+        const valueA = getSortValue(a, column);
+
+        const valueB = getSortValue(b, column);
+
+        return compareValues(valueA, valueB);
+
+    });
+
+    renderFlights();
+
+    updateSortIcons();
+
 }
 
-/* ==========================================================
+
+/* ============================================================
    GET SORT VALUE
-========================================================== */
+   ============================================================ */
 
 function getSortValue(flight, column) {
-  const getter = SORT_FIELDS[column];
 
-  if (!getter) return "";
+    const getter = SORT_FIELDS[column];
 
-  let value = getter(flight);
+    if (!getter) return "";
 
-  if (value === null || value === undefined) return "";
+    const value = getter(flight);
 
-  return value;
+    return value ?? "";
+
 }
 
-/* ==========================================================
+
+/* ============================================================
    COMPARE VALUES
-========================================================== */
+   ============================================================ */
 
 function compareValues(a, b) {
-  if (typeof a === "string") a = a.toLowerCase();
 
-  if (typeof b === "string") b = b.toLowerCase();
+    if (typeof a === "string") a = a.toLowerCase();
 
-  if (a < b) return currentDirection === "asc" ? -1 : 1;
+    if (typeof b === "string") b = b.toLowerCase();
 
-  if (a > b) return currentDirection === "asc" ? 1 : -1;
+    if (a < b) {
 
-  return 0;
+        return flightStore.sorting.direction === "asc"
+            ? -1
+            : 1;
+
+    }
+
+    if (a > b) {
+
+        return flightStore.sorting.direction === "asc"
+            ? 1
+            : -1;
+
+    }
+
+    return 0;
+
 }
 
-/* ==========================================================
-   TIME TO MINUTES
-========================================================== */
 
-function timeToMinutes(time) {
-
-    if (!time || time === "--")
-        return -1;
-
-    const [hours, minutes] = time.split(":").map(Number);
-
-    return hours * 60 + minutes;
-
-}
-
-/* ==========================================================
+/* ============================================================
    SORT ICONS
-========================================================== */
+   ============================================================ */
 
 function updateSortIcons() {
-  document.querySelectorAll(".sort-icon").forEach((icon) => {
-    icon.className = "fas fa-sort sort-icon";
-  });
 
-  const active = document.querySelector(
-    `[data-sort="${currentSort}"] .sort-icon`,
-  );
+    document.querySelectorAll(".sort-icon").forEach((icon) => {
 
-  if (!active) return;
+        icon.className = "fas fa-sort sort-icon";
 
-  active.className =
-    currentDirection === "asc"
-      ? "fas fa-sort-up sort-icon"
-      : "fas fa-sort-down sort-icon";
+    });
+
+    const active = document.querySelector(
+
+        `[data-sort="${flightStore.sorting.column}"] .sort-icon`
+
+    );
+
+    if (!active) return;
+
+    active.className =
+
+        flightStore.sorting.direction === "asc"
+
+            ? "fas fa-sort-up sort-icon"
+
+            : "fas fa-sort-down sort-icon";
+
 }
