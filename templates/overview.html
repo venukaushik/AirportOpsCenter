@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}
+Airport Operations Control Center
+{% endblock %}
+
+{% block page_title %}
+Airport Operations Control Center
+{% endblock %}
+
+{% block content %}
+
+<!-- ========================================= -->
+<!-- Dashboard Heading -->
+<!-- ========================================= -->
+
+<div class="dashboard-heading">
+
+    <h1>Overview Dashboard</h1>
+
+    <p>
+        Monitor airport operations in real time
+    </p>
+
+</div>
+
+
+<!-- ========================================= -->
+<!-- KPI CARDS -->
+<!-- ========================================= -->
+
+<div class="dashboard metrics-grid">
+
+    <div class="card metric-card">
+
+        <div class="card-header">
+
+            <span>Total Flights</span>
+
+            <i class="fa-solid fa-plane"></i>
+
+        </div>
+
+        <div class="metric" id="flightCount">
+            --
+        </div>
+
+        <div class="label">
+            Today's Operations
+        </div>
+
+        <canvas id="flightTrend"></canvas>
+
+    </div>
+
+
+    <div class="card metric-card">
+
+        <div class="card-header">
+
+            <span>Departures</span>
+
+            <i class="fa-solid fa-plane-departure"></i>
+
+        </div>
+
+        <div class="metric" id="departures">
+            --
+        </div>
+
+        <div class="label">
+            Scheduled
+        </div>
+
+        <canvas id="departureTrend"></canvas>
+
+    </div>
+
+
+    <div class="card metric-card">
+
+        <div class="card-header">
+
+            <span>Arrivals</span>
+
+            <i class="fa-solid fa-plane-arrival"></i>
+
+        </div>
+
+        <div class="metric" id="arrivals">
+            --
+        </div>
+
+        <div class="label">
+            Scheduled
+        </div>
+
+        <canvas id="arrivalTrend"></canvas>
+
+    </div>
+
+<div class="card metric-card radar-card" id=radarCard>
+
+    <div class="card-header">
+
+        <span>Airport Radar</span>
+
+        <i class="fa-solid fa-tower-observation"></i>
+
+    </div>
+
+    <div class="radar">
+
+        <div class="radar-center"></div>
+
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+
+        <div class="cross horizontal"></div>
+        <div class="cross vertical"></div>
+
+        <div class="radar-sweep"></div>
+
+        <!-- Aircraft -->
+
+        <div class="aircraft-dot a1"></div>
+        <div class="aircraft-dot a2"></div>
+        <div class="aircraft-dot a3"></div>
+        <div class="aircraft-dot a4"></div>
+
+    </div>
+
+</div>
+
+    </div>
+
+
+<!-- ========================================= -->
+<!-- Airport Operations -->
+<!-- ========================================= -->
+
+<!-- ===========================
+     Airport Operations
+============================ -->
+<div class="dashboard-card airport-card">
+
+    <div class="card-header">
+        <h3>🛫 Airport Operations</h3>
+
+        <div class="airport-status">
+            <span class="status-dot live"></span>
+            Live
+        </div>
+    </div>
+
+    <div class="airport-layout">
+
+        <!-- ===========================
+             Terminal
+        ============================ -->
+        <div class="terminal-area">
+
+            <div class="terminal-building">
+                🏢 Airport Apron
+            </div>
+
+            <div class="gate-row">
+
+                <div class="gate occupied">
+                    <div class="gate-light green"></div>
+
+                    <div class="aircraft parked">
+                        ✈️
+                    </div>
+
+                    <div class="flight-label">
+                        AI302
+                    </div>
+
+                    <div class="gate-name">
+                        Gate A1
+                    </div>
+                </div>
+
+                <div class="gate occupied">
+                    <div class="gate-light amber"></div>
+
+                    <div class="aircraft parked">
+                        ✈️
+                    </div>
+
+                    <div class="flight-label">
+                        6E214
+                    </div>
+
+                    <div class="gate-name">
+                        Gate A2
+                    </div>
+                </div>
+
+                <div class="gate free">
+                    <div class="gate-light red"></div>
+		    <div class="aircraft parked">
+                        ✈️
+                    </div>
+
+                    <div class="flight-label">
+                        UK955
+                    </div>
+                    <div class="gate-name">
+                        Gate A3
+                    </div>
+                </div>
+
+                <div class="gate occupied">
+                    <div class="gate-light green"></div>
+
+                    <div class="aircraft parked">
+                        ✈️
+                    </div>
+
+                    <div class="flight-label">
+                        UK955
+                    </div>
+
+                    <div class="gate-name">
+                        Gate A4
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===========================
+             Taxiway
+        ============================ -->
+        <div class="taxiway">
+
+            <div class="taxi-label">
+                TAXIWAY
+            </div>
+
+            <div class="ground-vehicles">
+
+                <div class="vehicle fuel">
+                    ⛽
+                </div>
+
+                <div class="vehicle baggage">
+                    🛒
+                </div>
+
+                <div class="vehicle bus">
+                    🚌
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===========================
+             Runway
+        ============================ -->
+        <div class="runway">
+
+            <div class="runway-label">
+                RUNWAY 28R / 10L
+            </div>
+
+            <div class="departing-aircraft">
+                ✈️
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/flights/store.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/airport.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+
+
+<!-- CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/flights.css') }}">
+
+<div class="flights-page">
+
+    <!-- ========================================= -->
+    <!-- Header -->
+    <!-- ========================================= -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>✈ Flight Operations</h1>
+
+            <p>Monitor arrivals and departures in real time</p>
+
+        </div>
+
+        <button class="refresh-btn">
+
+            <i class="fas fa-rotate-right"></i>
+
+            Refresh
+
+        </button>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- Filters -->
+    <!-- ========================================= -->
+
+    <div class="filter-bar">
+
+        <input
+            type="text"
+            id="flightSearch"
+            placeholder="Search Flight / Airline / Destination">
+
+        <select id="flightType">
+
+            <option value="">All Flights</option>
+            <option>Arrivals</option>
+            <option>Departures</option>
+
+        </select>
+
+        <select id="flightStatus">
+
+            <option value="">All Status</option>
+            <option>Scheduled</option>
+            <option>Boarding</option>
+            <option>Delayed</option>
+            <option>Landed</option>
+            <option>Cancelled</option>
+
+        </select>
+
+        <select id="airlineFilter">
+
+            <option value="">All Airlines</option>
+
+        </select>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- Flight Table -->
+    <!-- ========================================= -->
+
+    <div class="flight-table-container">
+
+        <table class="flight-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Flight</th>
+
+                    <th>Airline</th>
+
+                    <th>Type</th>
+
+                    <th>Origin / Destination</th>
+
+                    <th>STD</th>
+
+                    <th>ETD / ETA</th>
+
+                    <th>Gate</th>
+
+                    <th>Aircraft</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="flightTableBody">
+
+                <!-- JavaScript will populate rows -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

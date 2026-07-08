@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+
+{% block title %}
+Weather
+{% endblock %}
+
+{% block page_title %}
+Weather
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/weather.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="weather-page">
+
+    <!-- ========================================= -->
+    <!-- Current Weather + Forecast -->
+    <!-- ========================================= -->
+
+    <section class="weather-top">
+
+        <!-- Current Weather -->
+
+        <div class="weather-card current-weather">
+
+            <div class="card-header">
+                <h2>Current Weather</h2>
+            </div>
+
+            <div class="current-content">
+
+                <div class="weather-main">
+
+                    <div class="weather-icon">
+                        <i id="currentWeatherIcon" class="fa-solid fa-sun"></i>
+                    </div>
+
+                    <div>
+
+                        <h1 id="currentTemp">34°C</h1>
+
+                        <h3 id="currentCondition">Sunny</h3>
+
+                        <p id="airportName">
+                            Delhi IGI Airport (VIDP)
+                        </p>
+
+                        <span class="weather-update">
+                            Updated 2 min ago
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="weather-details">
+
+                    <div class="detail-item">
+
+                        <label>Feels Like</label>
+
+                        <span id="feelsLike">37°C</span>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <label>Humidity</label>
+
+                        <span id="humidity">62%</span>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <label>Wind</label>
+
+                        <span id="windSpeed">12 Km/h E</span>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <label>Pressure</label>
+
+                        <span id="pressure">1007 hPa</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Forecast -->
+
+        <div class="weather-card">
+
+            <div class="card-header">
+
+                <h2>7-Day Forecast</h2>
+
+            </div>
+
+            <div class="forecast-wrapper">
+
+                <div id="forecastContainer" class="forecast-grid">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================= -->
+    <!-- Airport Weather Status -->
+    <!-- ========================================= -->
+
+    <section class="weather-card">
+
+        <div class="card-header">
+
+            <h2>Airport Weather Status</h2>
+
+        </div>
+
+        <div class="status-grid">
+
+            <div class="status-card">
+
+                <i class="fa-regular fa-eye"></i>
+
+                <h4>Visibility</h4>
+
+                <span id="visibility">6000 m</span>
+
+                <small id="visibilityStatus"></small>
+
+            </div>
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-location-arrow"></i>
+
+                <h4>Wind Direction</h4>
+
+                <span id="windDirection">090° E</span>
+
+                <small id="windDirectionStatus"></small>
+
+
+            </div>
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-cloud"></i>
+
+                <h4>Cloud Cover</h4>
+
+                <span id="cloudCover">Few Clouds</span>
+
+                <small id="cloudCoverStatus"></small>
+
+
+            </div>
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-cloud-rain"></i>
+
+                <h4>Rainfall</h4>
+
+                <span id="rainfall">0.0 mm</span>
+
+                <small id="rainfallStatus"></small>
+
+            </div>
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-sun"></i>
+
+                <h4>UV Index</h4>
+
+                <span id="uvIndex">8</span>
+
+                <small id="uvIndexStatus"></small>
+
+            </div>
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-temperature-half"></i>
+
+                <h4>Dew Point</h4>
+
+                <span id="dewPoint">25°C</span>
+
+                <small id="dewPointStatus"></small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================= -->
+    <!-- Operational Impact -->
+    <!-- ========================================= -->
+
+    <section class="weather-card">
+
+        <div class="card-header">
+
+            <h2>Operational Impact</h2>
+
+        </div>
+
+        <div class="impact-grid">
+
+            <div class="impact-card">
+
+                <i class="fa-solid fa-road"></i>
+
+                <h4>Runway Condition</h4>
+
+                <span id="runwayCondition">Dry</span>
+
+                <small id="runwayConditionStatus"></small>
+
+            </div>
+
+            <div class="impact-card">
+
+                <i class="fa-solid fa-wind"></i>
+
+                <h4>Crosswind Risk</h4>
+
+                <span id="crosswindRisk">Low</span>
+
+                <small id="crosswindRiskStatus"></small>
+
+            </div>
+
+            <div class="impact-card">
+
+                <i class="fa-solid fa-bolt"></i>
+
+                <h4>Lightning Risk</h4>
+
+                <span id="lightningRisk">None</span>
+
+                <small id="lightningRiskStatus"></small>
+
+
+            </div>
+
+            <div class="impact-card">
+
+                <i class="fa-solid fa-dove"></i>
+
+                <h4>Bird Activity</h4>
+
+                <span id="birdActivity">Normal</span>
+
+                <small id="birdActivityStatus"></small>
+
+            </div>
+
+            <div class="impact-card">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <h4>Airport Status</h4>
+
+                <span id="airportStatus">Normal Operations</span>
+
+                <small id="airportStatusText"></small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================= -->
+    <!-- Bottom Section -->
+    <!-- ========================================= -->
+
+    <section class="weather-bottom">
+
+        <!-- METAR -->
+
+        <div class="weather-card">
+
+            <div class="card-header">
+
+                <h2>Latest METAR</h2>
+
+            </div>
+
+            <div class="metar-box">
+
+                <code id="metarText">
+
+                    VIDP 061130Z 09008KT 6000 HZ FEW020 SCT080 34/25 Q1007
+
+                </code>
+
+            </div>
+
+            <table class="metar-table">
+
+                <tbody>
+
+                    <tr>
+
+                        <th>Time</th>
+                        <td id="metarTime">11:30 UTC</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Wind</th>
+                        <td id="metarWind">090° / 8 kt</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Visibility</th>
+                        <td id="metarVisibility">6000 m</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Weather</th>
+                        <td id="metarWeather">Haze</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Clouds</th>
+                        <td id="metarClouds">FEW020 SCT080</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Temp / Dew</th>
+                        <td id="metarTemp">34 / 25°C</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>QNH</th>
+                        <td id="metarQNH">1007 hPa</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- Weather Advisories -->
+
+        <div class="weather-card">
+
+            <div class="card-header">
+
+                <h2>Weather Advisories</h2>
+
+            </div>
+
+            <div id="weatherAlerts">
+
+                <!-- JS Generated -->
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+
+{% endblock %}

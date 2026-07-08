@@ -1,0 +1,781 @@
+// =============================================
+// Airport Operations Control Center
+// Flight Operations Engine
+// Part 1 - Data Foundation
+// =============================================
+
+
+
+// =============================================
+// Airlines
+// =============================================
+
+const airlines = [
+
+    { name: "Air India", code: "AI" },
+    { name: "IndiGo", code: "6E" },
+    { name: "Akasa Air", code: "QP" },
+    { name: "SpiceJet", code: "SG" },
+    { name: "Vistara", code: "UK" },
+    { name: "Emirates", code: "EK" },
+    { name: "Qatar Airways", code: "QR" },
+    { name: "Singapore Airlines", code: "SQ" },
+    { name: "British Airways", code: "BA" },
+    { name: "Lufthansa", code: "LH" }
+
+];
+
+// =============================================
+// Routes
+// =============================================
+
+const routes = [
+
+    "Mumbai",
+    "Bengaluru",
+    "Hyderabad",
+    "Chennai",
+    "Kolkata",
+    "Goa",
+    "Pune",
+    "Ahmedabad",
+    "Jaipur",
+    "Lucknow",
+
+    "Dubai",
+    "Doha",
+    "Singapore",
+    "London",
+    "Frankfurt",
+    "Bangkok",
+    "Kathmandu",
+    "Colombo"
+
+];
+
+// =============================================
+// Aircraft
+// =============================================
+
+const aircraftTypes = [
+
+    "A320neo",
+    "A321neo",
+    "A319",
+    "A350-900",
+    "B737 MAX",
+    "B777-300ER",
+    "B787-9"
+
+];
+
+// =============================================
+// Gates
+// =============================================
+
+const gates = [
+
+    "A01","A02","A03","A04","A05",
+    "B01","B02","B03","B04","B05",
+    "C01","C02","C03","C04","C05"
+
+];
+
+// =============================================
+// Arrival Belts
+// =============================================
+
+const belts = [
+
+    "Belt 01",
+    "Belt 02",
+    "Belt 03",
+    "Belt 04",
+    "Belt 05",
+    "Belt 06"
+
+];
+
+// =============================================
+// Flight Storage
+// =============================================
+
+const flights = [];
+let currentView = "all";
+
+// =============================================
+// Flight Timelines
+// =============================================
+
+const departureTimeline = [
+
+    "Scheduled",
+    "Check-in Open",
+    "Security",
+    "Boarding",
+    "Final Call",
+    "Departed",
+    "Airborne"
+
+];
+
+const arrivalTimeline = [
+
+    "Scheduled",
+    "Final Approach",
+    "Landing",
+    "First Bag",
+    "Last Bag",
+    "Arrived"
+
+];
+
+// =============================================
+// Helpers
+// =============================================
+
+function randomItem(array){
+
+    return array[
+        Math.floor(Math.random()*array.length)
+    ];
+
+}
+
+function randomTime(){
+
+    const hour =
+        Math.floor(Math.random()*24);
+
+    const minute =
+        Math.floor(Math.random()*60);
+
+    return `${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}`;
+
+}
+
+// Adds -15 to +30 minutes
+function estimatedTime(schedule){
+
+    const parts = schedule.split(":");
+
+    let h = parseInt(parts[0]);
+
+    let m = parseInt(parts[1]);
+
+    let offset =
+        Math.floor(Math.random()*46)-15;
+
+    m += offset;
+
+    while(m<0){
+
+        h--;
+
+        m+=60;
+
+    }
+
+    while(m>=60){
+
+        h++;
+
+        m-=60;
+
+    }
+
+    if(h<0) h+=24;
+
+    if(h>=24) h-=24;
+
+    return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+
+}
+
+// =============================================
+// Generate Flights
+// =============================================
+
+function generateFlights(count=100){
+
+    flights.length = 0;
+
+    for(let i=1;i<=count;i++){
+
+        const airline = randomItem(airlines);
+
+        const type =
+            Math.random()>0.5
+            ? "Arrival"
+            : "Departure";
+
+        const schedule =
+            randomTime();
+
+        flights.push({
+
+            id:i,
+
+            flight:
+                airline.code +
+                (100 + Math.floor(Math.random()*900)),
+
+            airline:
+                airline.name,
+
+            type:type,
+
+            route: type === "Departure"
+    ? `Delhi - ${randomItem(routes)}`
+    : `${randomItem(routes)} - Delhi`,
+            schedule:
+                schedule,
+
+            estimated:
+                estimatedTime(schedule),
+
+            gate:
+                type==="Departure"
+                    ? randomItem(gates)
+                    : null,
+
+            belt:
+                type==="Arrival"
+                    ? randomItem(belts)
+                    : null,
+
+            aircraft:
+                randomItem(aircraftTypes)
+
+        });
+
+    }
+
+}
+
+// =============================================
+// Initialize
+// =============================================
+
+generateFlights(100);
+
+populateAirlineFilter();
+
+renderFlights();
+
+updateSortIcons();
+
+// =============================================
+// Time Helpers
+// =============================================
+
+function timeToMinutes(time){
+
+    const [hour, minute] = time.split(":").map(Number);
+
+    return hour * 60 + minute;
+
+}
+
+function currentMinutes(){
+
+    const now = new Date();
+
+    return now.getHours() * 60 + now.getMinutes();
+
+}
+
+// =============================================
+// Flight Status Engine
+// =============================================
+
+function getFlightStatus(flight){
+
+    const now = currentMinutes();
+
+    const schedule = timeToMinutes(flight.schedule);
+
+    const diff = schedule - now;
+
+    // ===============================
+    // DEPARTURES
+    // ===============================
+
+    if(flight.type === "Departure"){
+
+        if(diff > 90)
+            return {text:"Scheduled",class:"scheduled"};
+
+        if(diff > 45)
+            return {text:"Check-in Open",class:"checkin"};
+
+        if(diff > 20)
+            return {text:"Security",class:"security"};
+
+        if(diff > 5)
+            return {text:"Boarding",class:"boarding"};
+
+        if(diff >= 0)
+            return {text:"Final Call",class:"finalcall"};
+
+        if(diff > -15)
+            return {text:"Departed",class:"departed"};
+
+        return {text:"Airborne",class:"airborne"};
+
+    }
+
+    // Arrivals
+
+    if(diff > 60)
+        return {text:"Scheduled",class:"scheduled"};
+
+    if(diff > 15)
+        return {text:"Final Approach",class:"approach"};
+
+    if(diff >= -5)
+        return {text:"Landing",class:"landing"};
+
+    if(diff > -25)
+        return {text:"First Bag",class:"firstbag"};
+
+    if(diff > -45)
+        return {text:"Last Bag",class:"lastbag"};
+
+    return {text:"Arrived",class:"arrived"};
+
+}
+
+
+// =============================================
+// Render Flights
+// =============================================
+
+function renderFlights(data = flights){
+
+    const tbody =
+        document.getElementById("flightTableBody");
+
+    if(!tbody) return;
+
+    tbody.innerHTML = "";
+
+    let filteredFlights = data;
+
+if(currentView === "arrival"){
+
+    filteredFlights =
+        data.filter(f=>f.type==="Arrival");
+
+}
+
+else if(currentView === "departure"){
+
+    filteredFlights =
+        data.filter(f=>f.type==="Departure");
+
+}
+
+// =============================================
+// Search Flights
+// =============================================
+
+function searchFlights(){
+
+    const search =
+        document
+        .getElementById("flightSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered = flights.filter(flight => {
+
+        return (
+
+            flight.flight.toLowerCase().includes(search) ||
+
+            flight.airline.toLowerCase().includes(search) ||
+
+            flight.route.toLowerCase().includes(search) ||
+
+            flight.aircraft.toLowerCase().includes(search) ||
+
+            (flight.gate ?? "").toLowerCase().includes(search) ||
+
+            (flight.belt ?? "").toLowerCase().includes(search)
+
+        );
+
+    });
+
+    renderFlights(filtered);
+
+}
+
+const searchBox =
+    document.getElementById("flightSearch");
+
+if(searchBox){
+
+    let searchTimer;
+
+searchBox.addEventListener("input", () => {
+
+    clearTimeout(searchTimer);
+
+    searchTimer = setTimeout(() => {
+
+        searchFlights();
+
+    },250);
+
+});
+
+}
+
+const refreshButton =
+    document.getElementById("refreshFlights");
+
+if(refreshButton){
+
+    refreshButton.addEventListener("click", () => {
+
+
+
+        renderFlights();
+
+    });
+
+}
+
+refreshButton.addEventListener("click", () => {
+
+    refreshButton.classList.add("spinning");
+
+    generateFlights(100);
+
+    renderFlights();
+
+    setTimeout(() => {
+
+        refreshButton.classList.remove("spinning");
+
+    },600);
+
+});
+
+function updateTableView(){
+
+    const typeHeader =
+        document.getElementById("typeHeader");
+
+    const routeHeader =
+        document.getElementById("routeHeader");
+
+    const scheduleHeader =
+        document.getElementById("scheduleHeader");
+
+    const estimatedHeader =
+        document.getElementById("estimatedHeader");
+
+    const gateHeader =
+        document.getElementById("gateHeader");
+
+    const beltHeader =
+        document.getElementById("beltHeader");
+
+    // Reset
+
+    typeHeader.style.display = "";
+
+    gateHeader.style.display = "";
+
+    beltHeader.style.display = "";
+
+    routeHeader.querySelector(".header-text").textContent = "Route";
+scheduleHeader.querySelector(".header-text").textContent = "Schedule";
+    estimatedHeader.querySelector(".header-text").textContent = "Estimated";
+
+    document
+        .querySelectorAll(".type-column")
+        .forEach(c=>c.style.display="");
+
+    document
+        .querySelectorAll(".gate-column")
+        .forEach(c=>c.style.display="");
+
+    document
+        .querySelectorAll(".belt-column")
+        .forEach(c=>c.style.display="");
+
+    // ===========================
+    // ARRIVALS
+    // ===========================
+
+    if(currentView==="arrival"){
+
+        typeHeader.style.display="none";
+
+        gateHeader.style.display="none";
+
+        routeHeader.querySelector(".header-text").textContent = "Origin";
+
+        scheduleHeader.querySelector(".header-text").textContent = "STA";
+
+	estimatedHeader.querySelector(".header-text").textContent = "ETA";
+
+        document
+            .querySelectorAll(".type-column")
+            .forEach(c=>c.style.display="none");
+
+        document
+            .querySelectorAll(".gate-column")
+            .forEach(c=>c.style.display="none");
+
+    }
+
+    // ===========================
+    // DEPARTURES
+    // ===========================
+
+    if(currentView==="departure"){
+
+        typeHeader.style.display="none";
+
+        beltHeader.style.display="none";
+
+        routeHeader.innerHTML="Destination";
+
+        scheduleHeader.innerHTML="STD";
+
+        estimatedHeader.innerHTML="ETD";
+
+        document
+            .querySelectorAll(".type-column")
+            .forEach(c=>c.style.display="none");
+
+        document
+            .querySelectorAll(".belt-column")
+            .forEach(c=>c.style.display="none");
+
+    }
+
+}
+
+filteredFlights.forEach(flight=>{
+
+    const row = document.createElement("tr");
+
+    const status = getFlightStatus(flight);
+
+	    
+
+    row.innerHTML = `
+
+<td>${flight.flight}</td>
+
+<td>${flight.airline}</td>
+
+<td class="type-column">${flight.type}</td>
+
+<td>${flight.route}</td>
+
+<td>${flight.schedule}</td>
+
+<td>${flight.estimated}</td>
+
+<td class="gate-column">${flight.gate ?? "-"}</td>
+
+<td class="belt-column">${flight.belt ?? "-"}</td>
+
+<td>${flight.aircraft}</td>
+
+<td>
+
+    <span class="status ${status.class}">
+
+        ${status.text}
+
+    </span>
+
+</td>
+
+`;
+row.addEventListener("click", () => {
+
+    openFlightDrawer(flight);
+
+});
+    tbody.appendChild(row);
+
+});
+updateTableView();
+}
+
+
+// =============================================
+// Refresh Every Minute
+// =============================================
+
+setInterval(() => {
+
+    renderFlights();
+
+}, 60000);
+
+const viewSelect =
+    document.getElementById("flightView");
+
+if(viewSelect){
+
+    viewSelect.addEventListener("change", function(){
+
+        currentView = this.value;
+
+        renderFlights();
+
+    });
+
+}
+
+const selectedAirline =
+    document.getElementById("airlineFilter").value;
+
+if(selectedAirline){
+
+    filteredFlights =
+        filteredFlights.filter(f =>
+            f.airline === selectedAirline
+        );
+
+}
+
+function openFlightDrawer(flight){
+
+    document
+        .getElementById("flightDrawer")
+        .classList.add("open");
+
+    document.getElementById("drawerFlight").textContent = flight.flight;
+    document.getElementById("drawerAirline").textContent = flight.airline;
+    document.getElementById("drawerType").textContent = flight.type;
+    document.getElementById("drawerRoute").textContent = flight.route;
+    document.getElementById("drawerAircraft").textContent = flight.aircraft;
+    document.getElementById("drawerSchedule").textContent = flight.schedule;
+    document.getElementById("drawerEstimated").textContent = flight.estimated;
+    document.getElementById("drawerGate").textContent = flight.gate ?? "-";
+    document.getElementById("drawerBelt").textContent = flight.belt ?? "-";
+
+    const status = getFlightStatus(flight);
+
+    document.getElementById("drawerStatus").textContent =
+        status.text;
+	buildTimeline(flight);
+}
+
+document
+.getElementById("closeDrawer")
+.addEventListener("click",()=>{
+
+    document
+        .getElementById("flightDrawer")
+        .classList.remove("open");
+
+});
+
+// =============================================
+// Build Flight Timeline
+// =============================================
+
+function buildTimeline(flight){
+
+    const container =
+        document.getElementById("flightTimeline");
+
+    if(!container) return;
+
+    const status =
+        getFlightStatus(flight);
+
+    const timeline =
+        flight.type==="Departure"
+        ? departureTimeline
+        : arrivalTimeline;
+
+    const currentIndex =
+        timeline.indexOf(status.text);
+
+    container.innerHTML = "";
+
+    timeline.forEach((step,index)=>{
+
+        const active =
+            index===currentIndex;
+
+        const completed =
+            index<currentIndex;
+
+        container.innerHTML += `
+
+        <div class="timeline-step
+            ${completed?"completed":""}
+            ${active?"active":""}">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-label">
+
+                ${step}
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+// =============================================
+// Populate Airline Filter
+// =============================================
+
+function populateAirlineFilter(){
+
+    const airlineFilter =
+        document.getElementById("airlineFilter");
+
+    if(!airlineFilter) return;
+
+    const airlines =
+        [...new Set(flights.map(f => f.airline))]
+        .sort();
+
+    airlineFilter.innerHTML =
+        '<option value="">All Airlines</option>';
+
+    airlines.forEach(airline => {
+
+        airlineFilter.innerHTML +=
+            `<option value="${airline}">
+                ${airline}
+            </option>`;
+
+    });
+
+}
+
+const airlineFilter =
+    document.getElementById("airlineFilter");
+
+if(airlineFilter){
+
+    airlineFilter.addEventListener("change", () => {
+
+        renderFlights();
+
+    });
+
+}

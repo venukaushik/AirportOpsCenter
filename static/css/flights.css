@@ -1,0 +1,1116 @@
+/* ==========================================
+   Flight Operations
+========================================== */
+
+.content{
+    padding: 0;
+}
+
+
+.flights-page{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+/* ==========================================
+   Header
+========================================== */
+
+.page-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.page-header h1{
+
+    color:#ffffff;
+
+    font-size:28px;
+
+    margin-bottom:6px;
+
+}
+
+.page-header p{
+
+    color:#8ea9bd;
+
+    font-size:14px;
+
+}
+
+/* ==========================================
+   Refresh Button
+========================================== */
+
+.refresh-btn{
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#00bcd4;
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.refresh-btn:hover{
+
+    background:#0097a7;
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================================
+   Filters
+========================================== */
+
+.filter-bar{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+.filter-bar input,
+.filter-bar select{
+
+    background:#16263b;
+
+    border:1px solid #27405e;
+
+    color:#fff;
+
+    padding:12px 14px;
+
+    border-radius:8px;
+
+    outline:none;
+
+    font-size:14px;
+
+}
+
+.filter-bar input{
+
+    flex:1;
+
+    min-width:280px;
+
+}
+
+.filter-bar select{
+
+    min-width:170px;
+
+}
+
+.clear-filter-btn {
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 14px;
+
+    background: #2d3748;
+    color: #ffffff;
+
+    border: 1px solid #4a5568;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+
+}
+
+.clear-filter-btn:hover {
+
+    background: #3b4558;
+    border-color: #60a5fa;
+
+}
+
+.clear-filter-btn i {
+
+    font-size: 13px;
+
+}
+
+/* ==========================================
+   Table Container
+========================================== */
+
+.flight-table-container{
+
+    background:#14263b;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+}
+
+/* ==========================================
+   Table
+========================================== */
+
+.flight-table{
+
+    width:100%;
+
+    table-layout:fixed;
+
+    border-collapse:collapse;
+
+}
+
+.flight-table thead{
+
+    background:#1b3552;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:5;
+
+}
+
+.flight-table th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:#7de2ff;
+
+    font-size:13px;
+
+    letter-spacing:.8px;
+
+    text-transform:uppercase;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.sort-icon{
+
+    margin-left:6px;
+
+    color:#8b97a8;
+
+    font-size:12px;
+
+    transition:.25s;
+
+}
+
+.flight-table th:hover .sort-icon{
+
+    color:#ffffff;
+
+}
+
+.flight-table td{
+
+    padding:16px;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    color:#e5eef6;
+
+    font-size:14px;
+
+}
+
+.flight-table tbody tr{
+
+    transition:.25s;
+
+}
+
+.flight-table tbody tr:hover{
+
+    background:rgba(0,229,255,.08);
+
+    cursor:pointer;
+
+}
+
+/* ==========================================
+   Flight Status
+========================================== */
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:125px;
+
+    padding:7px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:.4px;
+
+    border:1px solid transparent;
+
+}
+
+.status.landing{
+
+    background:#233f64;
+
+    color:#80c6ff;
+
+    border-color:#3d7db7;
+
+}
+
+.status.scheduled{
+
+    background:#2f3742;
+
+    color:#d8dde5;
+
+    border-color:#505965;
+
+}
+
+.status.boarding{
+
+    background:#0d4427;
+
+    color:#49ff9d;
+
+    border-color:#18a957;
+
+}
+    .status.checkin{
+
+    background:#1f3556;
+
+    color:#6dc4ff;
+
+    border-color:#3f6fb5;
+
+}
+
+.status.delayed{
+
+    background:#5b4412;
+
+    color:#ffd84d;
+
+}
+
+.status.finalcall{
+
+    background:#4a250f;
+
+    color:#ffb84d;
+
+    border-color:#ff7b00;
+
+}
+
+.status.cancelled{
+
+    background:#5b1e24;
+
+    color:#ff7373;
+
+}
+
+.status.approach{
+
+    background:#25424b;
+
+    color:#7cefff;
+
+    border-color:#38b5c9;
+
+}
+
+.status.firstbag{
+
+    background:#2f2752;
+
+    color:#c6a7ff;
+
+    border-color:#7c57e6;
+
+}
+
+.status.lastbag{
+
+    background:#4a3660;
+
+    color:#e0bfff;
+
+    border-color:#a875ff;
+
+}
+
+.status.arrived{
+
+    background:#1d4c37;
+
+    color:#86ffc2;
+
+    border-color:#2fbf73;
+
+}
+
+.status.departed{
+
+    background:#283848;
+
+    color:#8db8ff;
+
+    border-color:#4c8dff;
+
+}
+
+.status.airborne{
+
+    background:#222a36;
+
+    color:#cdd7e3;
+
+    border-color:#5f738a;
+
+}
+
+.flight-table-container{
+
+    max-height:650px;
+
+    overflow-y:auto;
+
+}
+
+/*====================================================
+            FLIGHT DETAILS DRAWER
+====================================================*/
+
+/* ==========================================================
+   FLIGHT DETAILS MODAL
+========================================================== */
+
+.flight-drawer {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(0,0,0,.55);
+
+    backdrop-filter: blur(6px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: .25s ease;
+
+    z-index: 9999;
+
+}
+
+.flight-drawer.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+.flight-drawer.open{
+
+    right:0;
+
+}
+
+.flight-drawer.active{
+
+    right:0;
+
+}
+
+.drawer-modal {
+
+    width: 80vw;
+
+    height: 70vh;
+
+    max-width:1200px;
+
+    max-height:700px;
+
+    background: #172432;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 14px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    box-shadow: 0 25px 60px rgba(0,0,0,.45);
+
+    animation: drawerOpen .25s ease;
+
+}
+
+/*====================================================
+                    HEADER
+====================================================*/
+
+.drawer-header{
+
+    height:60px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 24px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+/*====================================================
+                STATUS BADGE
+====================================================*/
+
+.drawer-status{
+
+    margin:20px 25px 0;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    color:#fff;
+
+}
+
+.drawer-status.scheduled{
+
+    background:#1976d2;
+
+}
+
+.drawer-status.boarding,
+.drawer-status.firstbag,
+.drawer-status.landing{
+
+    background:#ff9800;
+
+}
+
+.drawer-status.departed,
+.drawer-status.airborne,
+.drawer-status.arrived{
+
+    background:#2e7d32;
+
+}
+
+.drawer-status.finalcall{
+
+    background:#d32f2f;
+
+}
+
+.drawer-status.checkin,
+.drawer-status.security,
+.drawer-status.approach{
+
+    background:#6a5acd;
+
+}
+
+.drawer-header h2{
+
+    font-size:34px;
+
+    color:#fff;
+
+    letter-spacing:1px;
+
+    margin:0;
+
+}
+
+.drawer-header button{
+
+    background:none;
+
+    border:none;
+
+    color:#bfc8d3;
+
+    font-size:26px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    animation:fadeCard .35s ease;
+
+}
+
+.drawer-header button:hover{
+
+    color:#ffffff;
+
+    transform:rotate(90deg);
+
+}
+
+/*====================================================
+                BODY
+====================================================*/
+
+.drawer-body{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:24px;
+
+}
+
+/*====================================================
+            INFORMATION GRID
+====================================================*/
+
+.drawer-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+.drawer-item{
+
+    background:#262d36;
+
+    border-left:4px solid #2d8cff;
+
+    border-radius:10px;
+
+    padding:15px;
+
+    transition:.25s;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items: center;
+
+
+
+}
+
+.drawer-item:hover{
+
+    transform:translateY(-2px);
+
+    background:#2b3440;
+
+}
+
+.drawer-item label{
+
+    color:#9fb2c6;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    margin-bottom:8px;
+
+}
+
+.drawer-item span{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.status-ready{
+
+    color:#1ed760 !important;
+    font-weight:700;
+
+}
+
+.status-progress{
+
+    color:#ffb300 !important;
+    font-weight:700;
+
+}
+
+.status-pending{
+
+    color:#ff5f57 !important;
+    font-weight:700;
+
+}
+
+/*====================================================
+            FLIGHT PROGRESS
+====================================================*/
+
+.drawer-timeline{
+
+    margin-top:15px;
+
+}
+
+.drawer-timeline h3{
+
+    color:#ffffff;
+
+    font-size:20px;
+
+    margin-bottom:20px;
+
+}
+
+/*====================================================
+        VERTICAL TIMELINE
+====================================================*/
+
+#flightTimeline{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:0;
+
+    position:relative;
+
+    padding-left:18px;
+
+}
+
+#flightTimeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:11px;
+
+    top:12px;
+
+    bottom:12px;
+
+    width:3px;
+
+    background:#3c434d;
+
+}
+
+/*====================================================
+                STEP
+====================================================*/
+
+.timeline-step{
+
+    transition:.25s;
+
+    display:flex;
+
+    align-items:center;
+
+    position:relative;
+
+    padding:18px 0;
+
+}
+
+.timeline-step:hover{
+
+    transform:translateX(6px);
+
+}
+
+.flight-drawer::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.flight-drawer::-webkit-scrollbar-thumb{
+
+    background:#465363;
+
+    border-radius:20px;
+
+}
+
+@keyframes fadeCard{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.timeline-dot{
+
+    width:22px;
+
+    height:22px;
+
+    border-radius:50%;
+
+    background:#49515d;
+
+    border:3px solid #626c79;
+
+    position:relative;
+
+    z-index:2;
+
+    flex-shrink:0;
+
+}
+
+.timeline-label{
+
+    margin-left:18px;
+
+    color:#8d98a7;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+/*====================================================
+            COMPLETED STEP
+====================================================*/
+
+.timeline-step.completed .timeline-dot{
+
+    background:#1ed760;
+
+    border-color:#1ed760;
+
+}
+
+.timeline-step.completed .timeline-dot::after{
+
+    content:"✓";
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.timeline-step.completed .timeline-label{
+
+    color:#ffffff;
+
+}
+
+/*====================================================
+            ACTIVE STEP
+====================================================*/
+
+.timeline-step.active .timeline-dot{
+
+    background:#ffb300;
+
+    border-color:#ffb300;
+
+    box-shadow:0 0 18px rgba(255,179,0,.7);
+
+    animation:pulse 1.8s infinite;
+
+}
+
+.timeline-step.active .timeline-label{
+
+    color:#ffb300;
+
+    font-weight:700;
+
+}
+
+/*====================================================
+            FUTURE STEP
+====================================================*/
+
+.timeline-step:not(.active):not(.completed) .timeline-label{
+
+    color:#7f8893;
+
+}
+
+/* ==========================================================
+   LOADING OVERLAY
+========================================================== */
+
+.loading-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(10,18,30,.82);
+
+    backdrop-filter:blur(4px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    z-index:9999;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.25s ease;
+
+}
+
+.loading-overlay.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ==========================================================
+   SPINNER
+========================================================== */
+
+.loading-spinner{
+
+    width:72px;
+
+    height:72px;
+
+    border:6px solid rgba(255,255,255,.12);
+
+    border-top:6px solid #59d2ff;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+.loading-overlay h3{
+
+    font-size:22px;
+
+    font-weight:600;
+
+    color:white;
+
+}
+
+.loading-overlay p{
+
+    color:#93a8ba;
+
+    font-size:15px;
+
+}
+
+/*====================================================
+                ANIMATION
+====================================================*/
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.18);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+.spinning i{
+
+    animation:spin .6s linear;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@keyframes drawerOpen{
+
+    from{
+
+        transform:translateY(20px) scale(.96);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:translateY(0) scale(1);
+
+        opacity:1;
+
+    }
+
+}
+

@@ -1,0 +1,959 @@
+/* ==========================================================
+   WEATHER PAGE
+========================================================== */
+
+.weather-page {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+/* ==========================================================
+   TOP SECTION
+========================================================== */
+
+.weather-top {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+
+  gap: 24px;
+}
+
+/* ==========================================================
+   BOTTOM SECTION
+========================================================== */
+
+.weather-bottom {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 24px;
+}
+
+/* ==========================================================
+   COMMON CARD
+========================================================== */
+
+.weather-card {
+  background: linear-gradient(180deg, #17293d, #122031);
+
+  border: 1px solid rgba(111, 211, 255, 0.1);
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================================================
+   CARD HEADER
+========================================================== */
+
+.card-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 22px;
+}
+
+.card-header h2 {
+  font-size: 20px;
+
+  font-weight: 600;
+}
+
+/* ==========================================================
+   WEATHER STATUS GRID
+========================================================== */
+
+.status-grid {
+  display: grid;
+
+  grid-template-columns: repeat(6, 1fr);
+
+  gap: 18px;
+}
+
+/* ==========================================================
+   OPERATIONAL IMPACT GRID
+========================================================== */
+
+.impact-grid {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 18px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 1400px) {
+  .status-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .impact-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .weather-top {
+    grid-template-columns: 1fr;
+  }
+
+  .weather-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================
+   CURRENT WEATHER
+========================================================== */
+
+.current-content {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 40px;
+
+  min-height: 240px;
+}
+
+/* ==========================================================
+   LEFT SIDE
+========================================================== */
+
+.weather-main {
+  display: flex;
+
+  align-items: center;
+
+  gap: 28px;
+}
+
+.weather-icon {
+  width: 110px;
+
+  height: 110px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: rgba(255, 196, 0, 0.08);
+
+  border: 1px solid rgba(255, 196, 0, 0.25);
+}
+
+.weather-icon i {
+  font-size: 64px;
+
+  color: #ffc400;
+}
+
+/* ==========================================================
+   TEMPERATURE
+========================================================== */
+
+#currentTemp {
+  font-size: 62px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  color: #ffffff;
+
+  margin-bottom: 10px;
+}
+
+#currentCondition {
+  font-size: 24px;
+
+  font-weight: 600;
+
+  color: #ffc400;
+
+  margin-bottom: 8px;
+}
+
+#airportName {
+  color: var(--text-light);
+
+  font-size: 15px;
+
+  margin-bottom: 6px;
+}
+
+.weather-update {
+  color: #7d8ea4;
+
+  font-size: 13px;
+}
+
+/* ==========================================================
+   WEATHER DETAILS
+========================================================== */
+
+.weather-details {
+  display: grid;
+
+  grid-template-columns: repeat(2, 170px);
+
+  gap: 18px;
+}
+
+.detail-item {
+  background: #1a2b3f;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.detail-item label {
+  font-size: 13px;
+
+  color: var(--text-light);
+}
+
+.detail-item span {
+  font-size: 22px;
+
+  font-weight: 600;
+
+  color: #ffffff;
+}
+
+/* ==========================================================
+   WEATHER DETAILS
+========================================================== */
+
+.weather-details {
+  display: grid;
+
+  grid-template-columns: repeat(2, 170px);
+
+  gap: 18px;
+}
+
+.detail-item {
+  background: #1a2b3f;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.detail-item label {
+  font-size: 13px;
+
+  color: var(--text-light);
+}
+
+.detail-item span {
+  font-size: 22px;
+
+  font-weight: 600;
+
+  color: #ffffff;
+}
+
+/* ==========================================================
+   FORECAST WRAPPER
+========================================================== */
+
+.forecast-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  overflow-y: hidden;
+
+  padding-bottom: 10px;
+}
+
+/* Chrome */
+
+.forecast-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.forecast-wrapper::-webkit-scrollbar-track {
+  background: #162331;
+
+  border-radius: 10px;
+}
+
+.forecast-wrapper::-webkit-scrollbar-thumb {
+  background: #446789;
+
+  border-radius: 10px;
+}
+
+.forecast-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #59d2ff;
+}
+
+/* ==========================================================
+   FORECAST CARD
+========================================================== */
+
+.forecast-card {
+  width: 220px;
+
+  flex: none;
+
+  background: #1a2b3f;
+
+  border-radius: 16px;
+
+  padding: 22px;
+}
+
+.forecast-card:hover {
+  border-color: rgba(111, 211, 255, 0.35);
+
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+}
+
+.forecast-day {
+  font-size: 15px;
+
+  font-weight: 600;
+
+  margin-bottom: 14px;
+
+  color: #ffffff;
+}
+
+.forecast-details {
+  margin-top: 18px;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+.forecast-details {
+  margin-top: 18px;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+.forecast-details i {
+  color: #59d2ff;
+}
+
+.forecast-icon {
+  font-size: 38px;
+
+  margin-bottom: 16px;
+
+  color: #ffc400;
+}
+
+.forecast-temp {
+  font-size: 24px;
+
+  font-weight: 600;
+
+  margin-bottom: 8px;
+}
+
+.forecast-condition {
+  font-size: 13px;
+
+  color: var(--text-light);
+
+  margin-bottom: 16px;
+}
+
+.forecast-range {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  font-size: 14px;
+}
+
+.forecast-high {
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+.forecast-low {
+  color: #8fa4b8;
+}
+
+/* ==========================================================
+   AIRPORT WEATHER STATUS
+========================================================== */
+
+.status-grid {
+  display: grid;
+
+  grid-template-columns: repeat(6, 1fr);
+
+  gap: 18px;
+
+  margin-top: 10px;
+}
+
+.status-card {
+  background: #1a2b3f;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 16px;
+
+  padding: 22px 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  transition: 0.25s ease;
+}
+
+.status-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(111, 211, 255, 0.3);
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.status-card i {
+  font-size: 28px;
+
+  color: #55c8ff;
+
+  margin-bottom: 16px;
+}
+
+.status-card h4 {
+  font-size: 15px;
+
+  font-weight: 500;
+
+  color: var(--text-light);
+
+  margin-bottom: 12px;
+}
+
+.status-card span {
+  font-size: 26px;
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+  margin-bottom: 8px;
+}
+
+.status-card small {
+  font-size: 13px;
+
+  color: #7ecb7e;
+
+  font-weight: 500;
+}
+
+/* ==========================================================
+   WEATHER STATUS COLORS
+========================================================== */
+
+.status-good {
+  color: #47d764 !important;
+}
+
+.status-warning {
+  color: #ffc857 !important;
+}
+
+.status-danger {
+  color: #ff6666 !important;
+}
+
+.status-info {
+  color: #55c8ff !important;
+}
+
+/* ==========================================================
+   OPERATIONAL IMPACT
+========================================================== */
+
+.impact-grid {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 18px;
+
+  margin-top: 10px;
+}
+
+.impact-card {
+  background: #1a2b3f;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 16px;
+
+  padding: 22px 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  transition: 0.25s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.impact-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(111, 211, 255, 0.3);
+
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+}
+
+.impact-card i {
+  font-size: 30px;
+
+  color: #56cfff;
+
+  margin-bottom: 16px;
+}
+
+.impact-card h4 {
+  font-size: 15px;
+
+  font-weight: 500;
+
+  color: var(--text-light);
+
+  margin-bottom: 12px;
+}
+
+.impact-card span {
+  font-size: 22px;
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+  margin-bottom: 8px;
+}
+
+.impact-card span {
+  font-size: 22px;
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+  margin-bottom: 8px;
+}
+
+/* ==========================================================
+   IMPACT COLORS
+========================================================== */
+
+.impact-low {
+  color: #48d96f !important;
+}
+
+.impact-medium {
+  color: #ffc857 !important;
+}
+
+.impact-high {
+  color: #ff6767 !important;
+}
+
+.impact-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 0;
+
+  width: 4px;
+
+  height: 100%;
+
+  background: #48d96f;
+}
+
+/* Low */
+
+.impact-card.low::before {
+  background: #48d96f;
+}
+
+/* Medium */
+
+.impact-card.medium::before {
+  background: #ffc857;
+}
+
+/* High */
+
+.impact-card.high::before {
+  background: #ff6767;
+}
+
+/* ==========================================================
+   METAR
+========================================================== */
+
+.metar-box {
+  background: #0f1b28;
+
+  border: 1px solid rgba(111, 211, 255, 0.12);
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  margin-bottom: 22px;
+}
+
+.metar-box code {
+  display: block;
+
+  color: #65d5ff;
+
+  font-family: "Consolas", "Courier New", monospace;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+
+  word-break: break-word;
+}
+
+.metar-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.metar-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metar-table tr:last-child {
+  border-bottom: none;
+}
+
+.metar-table th {
+  width: 35%;
+
+  text-align: left;
+
+  padding: 14px 10px;
+
+  color: var(--text-light);
+
+  font-weight: 500;
+
+  font-size: 14px;
+}
+
+.metar-table td {
+  padding: 14px 20px;
+
+  font-size: 15px;
+
+  color: #ffffff;
+
+  font-weight: 500;
+}
+
+/* ==========================================================
+   WEATHER ADVISORIES
+========================================================== */
+
+#weatherAlerts {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+/* ==========================================================
+   ADVISORY CARD
+========================================================== */
+
+.advisory-card {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+
+  padding: 18px;
+
+  background: #18283b;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-left: 4px solid #59d2ff;
+
+  border-radius: 14px;
+
+  transition: 0.25s ease;
+}
+
+.advisory-card:hover {
+  transform: translateX(4px);
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================================================
+   SUCCESS
+========================================================== */
+
+.advisory-card.success{
+
+    border-left-color:#47d764;
+
+}
+
+.advisory-card.success .advisory-icon{
+
+    background:rgba(71,215,100,.12);
+
+}
+
+.advisory-card.success i{
+
+    color:#47d764;
+
+}
+
+/* ==========================================================
+   INFO
+========================================================== */
+
+.advisory-card.info{
+
+    border-left-color:#55c8ff;
+
+}
+
+.advisory-card.info .advisory-icon{
+
+    background:rgba(85,200,255,.12);
+
+}
+
+.advisory-card.info i{
+
+    color:#55c8ff;
+
+}
+
+/* ==========================================================
+   WARNING
+========================================================== */
+
+.advisory-card.warning{
+
+    border-left-color:#ffc857;
+
+}
+
+.advisory-card.warning .advisory-icon{
+
+    background:rgba(255,200,87,.12);
+
+}
+
+.advisory-card.warning i{
+
+    color:#ffc857;
+
+}
+
+/* ==========================================================
+   DANGER
+========================================================== */
+
+.advisory-card.danger{
+
+    border-left-color:#ff5d73;
+
+}
+
+.advisory-card.danger .advisory-icon{
+
+    background:rgba(255,93,115,.12);
+
+}
+
+.advisory-card.danger i{
+
+    color:#ff5d73;
+
+}
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+.advisory-icon {
+  width: 44px;
+
+  height: 44px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  flex-shrink: 0;
+}
+
+.advisory-icon i {
+  font-size: 20px;
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.advisory-content {
+  flex: 1;
+}
+
+.advisory-content h4 {
+  font-size: 16px;
+
+  font-weight: 600;
+
+  margin-bottom: 6px;
+}
+
+.advisory-content p {
+  font-size: 14px;
+
+  color: var(--text-light);
+
+  line-height: 1.6;
+}
+
+/* ==========================================================
+   TIME
+========================================================== */
+
+.advisory-card span {
+  font-size: 13px;
+
+  color: #8fa4b8;
+
+  white-space: nowrap;
+}
+
+/* ==========================================================
+   FORECAST RAIN
+========================================================== */
+
+.forecast-rain {
+  margin-top: 16px;
+
+  font-size: 13px;
+
+  color: #55c8ff;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+.forecast-grid {
+  display: flex;
+
+  gap: 16px;
+
+  width: max-content;
+}

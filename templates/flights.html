@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+{% block title %}
+Flight Operations
+{% endblock %}
+
+{% block page_title %}
+Flight Operations
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/flights.css') }}">
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Flight Operations</title>
+
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Flights Page Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flights.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ================================================= -->
+        <!-- Main Content -->
+        <!-- ================================================= -->
+
+        <main class="content">
+
+            <div class="flights-page">
+
+                <!-- Header -->
+
+                <div class="page-header">
+
+                    <div>
+
+                        <h1>✈ &nbsp; Flight Operations</h1>
+
+                        <p>Monitor arrivals and departures in real time</p>
+
+                    </div>
+
+                    <button class="refresh-btn" id="refreshFlights">
+
+                        <i class="fas fa-rotate-right"></i>
+
+                        Refresh
+
+                    </button>
+
+                </div>
+
+                <!-- Filters -->
+
+                <div class="filter-bar">
+
+                    <input type="text" id="flightSearch" placeholder="Search Flight / Airline / Destination">
+
+                    <select id="flightView">
+
+                        <option value="all">All Flights</option>
+
+                        <option value="arrival">Arrivals</option>
+
+                        <option value="departure">Departures</option>
+
+                    </select>
+
+                    <select id="flightStatus">
+
+                        <option value="">All Status</option>
+                        <option>Scheduled</option>
+                        <option>Boarding</option>
+                        <option>Delayed</option>
+                        <option>Landed</option>
+                        <option>Cancelled</option>
+
+                    </select>
+
+                    <select id="airlineFilter">
+
+                        <option value="">All Airlines</option>
+
+                    </select>
+
+                    <button id="clearFilters" class="clear-filter-btn">
+                        <i class="fas fa-filter-circle-xmark"></i>
+                        Clear Filters
+                    </button>
+
+                </div>
+
+                <!-- Flight Table -->
+
+                <div class="flight-table-container">
+
+                    <table class="flight-table">
+
+                        <thead>
+
+                            <tr id="flightTableHeader">
+
+                                <th data-sort="flight">
+                                    <span class="header-text">Flight</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th data-sort="airline">
+                                    <span class="header-text">Airline</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th id="typeHeader" data-sort="type">
+                                    <span class="header-text">Flight Type</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th id="routeHeader" data-sort="route">
+                                    <span class="header-text">Route</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th id="scheduleHeader" data-sort="schedule">
+                                    <span class="header-text">Schedule</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th id="estimatedHeader" data-sort="estimated">
+                                    <span class="header-text">Estimated</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th id="gateHeader" data-sort="gate">
+                                    <span class="header-text">Gate</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th id="beltHeader" data-sort="belt">
+                                    <span class="header-text">Belt</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th data-sort="aircraft">
+                                    <span class="header-text">Aircraft</span>
+                                    <i class="fas fa-sort sort-icon"></i>
+                                </th>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="flightTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <!-- ========================================= -->
+                <!-- Flight Details Drawer -->
+                <!-- ========================================= -->
+
+                <div id="flightDrawer" class="flight-drawer">
+                    <div class="drawer-modal">
+
+                        <div class="drawer-header">
+
+                            <h2 id="drawerFlight">AI302</h2>
+
+                            <button id="closeDrawer">
+
+                                <i class="fa-solid fa-xmark"></i>
+
+                            </button>
+
+                        </div>
+
+                        <div class="drawer-body">
+
+                            <div class="drawer-grid">
+
+                                <div class="drawer-item">
+
+                                    <label>Airline</label>
+
+                                    <span id="drawerAirline"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Type</label>
+
+                                    <span id="drawerType"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Route</label>
+
+                                    <span id="drawerRoute"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Aircraft</label>
+
+                                    <span id="drawerAircraft"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Scheduled</label>
+
+                                    <span id="drawerSchedule"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Estimated</label>
+
+                                    <span id="drawerEstimated"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Gate</label>
+
+                                    <span id="drawerGate"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Belt</label>
+
+                                    <span id="drawerBelt"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Status</label>
+
+                                    <span id="drawerStatus"></span>
+
+                                </div>
+                                <div class="drawer-item">
+
+                                    <label>Passengers</label>
+
+                                    <span id="drawerPassengers"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Crew</label>
+
+                                    <span id="drawerCrew"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Fuel</label>
+
+                                    <span id="drawerFuel"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Baggage</label>
+
+                                    <span id="drawerBaggage"></span>
+
+                                </div>
+
+                                <div class="drawer-item">
+
+                                    <label>Terminal</label>
+
+                                    <span id="drawerTerminal"></span>
+
+                                </div>
+
+                                <!-- ========================================= -->
+                                <!-- Flight Progress -->
+                                <!-- ========================================= -->
+
+                                <div class="drawer-timeline">
+
+                                    <h3>Flight Progress</h3>
+
+                                    <div id="flightTimeline">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- Flights JavaScript -->
+
+    <script
+    type="module"
+    src="{{ url_for('static', filename='js/flights/init.js') }}">
+</script>
+
+<!-- 
+    <script src="../static/js/flights/store.js"></script>
+    <script src="../static/js/flights/data.js"></script>
+    <script src="../static/js/flights/utils.js"></script>
+    <script src="../static/js/flights/generator.js"></script>
+    <script src="../static/js/flights/status.js"></script>
+    <script src="../static/js/flights/spinner.js"></script>
+    <script src="../static/js/flights/filters.js"></script>
+    <script src="../static/js/flights/renderer.js"></script>
+    <script src="../static/js/flights/sorting.js"></script>
+    <script src="../static/js/flights/drawer.js"></script>
+    <script src="../static/js/flights/timeline.js"></script>
+    <script src="../static/js/flights/init.js"></script> -->
+
+</body>
+
+</html>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

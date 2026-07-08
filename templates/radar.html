@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block title %}
+Airport Surveillance Radar
+{% endblock %}
+
+{% block page_title %}
+📡 Airport Surveillance Radar
+{% endblock %}
+
+{% block content %}
+
+<!-- ========================================= -->
+<!-- Radar Heading -->
+<!-- ========================================= -->
+
+
+<!-- ========================================= -->
+<!-- Radar Dashboard -->
+<!-- ========================================= -->
+
+<div class="radar-dashboard">
+
+    <!-- Radar Section -->
+    <div class="dashboard-card radar-main-card">
+
+       <!-- <div class="card-header">
+
+            <h3>📡 Airport Surveillance Radar</h3>
+
+            <div class="airport-status">
+
+                <span class="status-dot live"></span>
+
+                Live
+
+	    </div> -->
+
+        </div>
+
+        <div class="radar-container">
+
+            <!-- Radar will be built in Part 2 -->
+
+            <div class="radar-screen">
+
+
+<!-- Radar Trail Layer -->
+
+
+
+<!-- ========================================= -->
+<!-- Aircraft Targets -->
+<!-- ========================================= -->
+
+<div class="radar-aircraft" id="plane1">
+    <div class="aircraft-icon">
+	<img src="{{ url_for('static', filename='images/passenger_aircraft.svg') }}"
+             alt="Passenger Aircraft">
+    </div>
+    <span>AI302</span>
+</div>
+
+<div class="radar-aircraft" id="plane2">
+    <div class="aircraft-icon">
+	<img src="{{ url_for('static', filename='images/passenger_aircraft.svg') }}"
+             alt="Passenger Aircraft">
+    </div>
+    <span>6E214</span>
+</div>
+
+<div class="radar-aircraft" id="plane3">
+    <div class="aircraft-icon">
+	<img src="{{ url_for('static', filename='images/passenger_aircraft.svg') }}"
+             alt="Passenger Aircraft">
+    </div>
+    <span>EK511</span>
+</div>
+
+<div class="radar-aircraft" id="plane4">
+    <div class="aircraft-icon">
+	    <img src="{{ url_for('static', filename='images/passenger_aircraft.svg') }}"
+             alt="Passenger Aircraft">
+    </div>
+    <span>UK955</span>
+</div>
+
+<div class="radar-aircraft" id="plane5">
+    <div class="aircraft-icon">
+	<img src="{{ url_for('static', filename='images/military_aircraft.svg') }}"
+             alt="Military Aircraft">
+    </div>
+    <span>IAF-01</span>
+</div>
+
+<div class="radar-aircraft" id="plane6">
+
+    <div class="aircraft-icon">
+        <img src="{{ url_for('static', filename='images/passenger_aircraft.svg') }}">
+    </div>
+
+    <span></span>
+
+</div>
+
+<div class="radar-aircraft" id="plane7">
+
+    <div class="aircraft-icon">
+        <img src="{{ url_for('static', filename='images/passenger_aircraft.svg') }}">
+    </div>
+
+    <span></span>
+
+</div>
+
+<div class="radar-aircraft" id="plane8">
+
+    <div class="aircraft-icon">
+        <img src="{{ url_for('static', filename='images/military_aircraft.svg') }}">
+    </div>
+
+    <span></span>
+
+</div>
+    <div class="radar-ring ring-1"></div>
+    <div class="radar-ring ring-2"></div>
+    <div class="radar-ring ring-3"></div>
+    <div class="radar-ring ring-4"></div>
+    <div class="radar-ring ring-5"></div>
+
+    <div class="crosshair horizontal"></div>
+    <div class="crosshair vertical"></div>
+
+    <div class="radar-center"></div>
+
+    <div class="radar-sweep"></div>
+
+    <div class="direction north">N</div>
+    <div class="direction east">E</div>
+    <div class="direction south">S</div>
+    <div class="direction west">W</div>
+
+</div>
+
+        </div>
+
+    </div>
+
+<!-- ========================================= -->
+<!-- Radar Operations -->
+<!-- ========================================= -->
+
+<div class="radar-operations">
+
+    <!-- Live Aircraft -->
+
+    <div class="dashboard-card radar-panel">
+
+        <div class="panel-header">
+
+            <i class="fas fa-plane"></i>
+
+            <span>Live Tracked Aircraft</span>
+
+        </div>
+
+        <div id="trackedAircraftList" class="panel-body">
+
+            <!-- JS will populate -->
+
+        </div>
+
+    </div>
+
+    <!-- Aircraft Details -->
+
+    <div class="dashboard-card radar-panel">
+
+        <div class="panel-header">
+
+            <i class="fas fa-info-circle"></i>
+
+            <span>Aircraft Details</span>
+
+        </div>
+
+        <div id="aircraftDetails" class="panel-body empty-panel">
+
+            <div class="empty-message">
+
+                <i class="fas fa-mouse-pointer"></i>
+
+                <p>Select an aircraft on the radar</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Radar Events -->
+
+    <div class="dashboard-card radar-panel">
+
+        <div class="panel-header">
+
+            <i class="fas fa-list"></i>
+
+            <span>Radar Events</span>
+
+        </div>
+
+        <div id="radarEvents" class="panel-body radar-events">
+
+    <!-- Event 1 -->
+    <div class="event info">
+
+        <div class="event-time">14:22:01</div>
+
+        <div class="event-icon">
+            <i class="fas fa-plane-arrival"></i>
+        </div>
+
+        <div class="event-details">
+
+            <div class="event-flight">
+                AI432
+            </div>
+
+            <div class="event-action">
+                LANDING COMPLETED ON RWY 29L
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Event 2 -->
+    <div class="event success">
+
+        <div class="event-time">14:23:15</div>
+
+        <div class="event-icon">
+            <i class="fas fa-satellite-dish"></i>
+        </div>
+
+        <div class="event-details">
+
+            <div class="event-flight">
+                UK955
+            </div>
+
+            <div class="event-action">
+                ENTERED RADAR COVERAGE
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Event 3 -->
+    <div class="event warning">
+
+        <div class="event-time">14:24:08</div>
+
+        <div class="event-icon">
+            <i class="fas fa-taxi"></i>
+        </div>
+
+        <div class="event-details">
+
+            <div class="event-flight">
+                6E512
+            </div>
+
+            <div class="event-action">
+                TAXIWAY B CONGESTION DETECTED
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Event 4 -->
+    <div class="event danger">
+
+        <div class="event-time">14:25:42</div>
+
+        <div class="event-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+
+        <div class="event-details">
+
+            <div class="event-flight">
+                SG621
+            </div>
+
+            <div class="event-action">
+                RUNWAY OCCUPANCY CONFLICT DETECTED
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+	</div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/radar.js') }}"></script>
+
+{% endblock %}

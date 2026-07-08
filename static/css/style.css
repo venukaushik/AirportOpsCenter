@@ -1,0 +1,3088 @@
+/* ==========================================================
+   AIRPORT OPERATIONS CONTROL CENTER
+   STYLE.CSS - PART 1
+========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #08111d;
+  --sidebar: #101b2d;
+  --topbar: #0f1b2d;
+  --card: #132238;
+
+  --border: #22324c;
+
+  --primary: #45c4ff;
+
+  --green: #38ff95;
+
+  --yellow: #ffcb4d;
+
+  --red: #ff5f6d;
+
+  --text: #ffffff;
+
+  --text-light: #9db7d3;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  font-family: "Poppins", sans-serif;
+
+  color: var(--text);
+
+  /* overflow: hidden; */
+
+  overflow: hiddenn;
+
+  background: var(--bg);
+}
+
+/* ==========================================================
+   Animated Aurora Background
+========================================================== */
+
+body::before {
+  content: "";
+
+  position: fixed;
+
+  inset: -20%;
+
+  z-index: -2;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(0, 170, 255, 0.16),
+      transparent 35%
+    ),
+    radial-gradient(circle at 85% 25%, rgba(0, 255, 120, 0.1), transparent 32%),
+    radial-gradient(
+      circle at 45% 80%,
+      rgba(130, 80, 255, 0.1),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(0, 220, 255, 0.08),
+      transparent 30%
+    ),
+    #07111b;
+
+  animation: auroraMove 90s ease-in-out infinite;
+}
+
+/* Dark vignette */
+
+body::after {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background: radial-gradient(circle, transparent 45%, rgba(0, 0, 0, 0.28));
+
+  pointer-events: none;
+}
+
+/* ==========================================================
+   APP LAYOUT
+========================================================== */
+
+.app-container{
+
+    margin-left:72px;
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    /* width:calc(100% - 72px); */
+
+}
+
+/* ==========================================================
+   Background Glow
+========================================================== */
+
+.app-container::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  animation: backgroundFloat 60s ease-in-out infinite;
+
+  background:
+    radial-gradient(circle at 15% 15%, rgba(0, 140, 255, 0.1), transparent 35%),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(0, 255, 120, 0.08),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 45% 85%,
+      rgba(150, 80, 255, 0.08),
+      transparent 35%
+    ),
+    var(--bg);
+}
+
+.alerts-header {
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: #ffffff;
+
+  margin-bottom: 12px;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+.alerts-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  max-height: 170px;
+
+  overflow-y: auto;
+}
+
+.alerts-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.alerts-list::-webkit-scrollbar-thumb {
+  background: #4fc3f7;
+
+  border-radius: 10px;
+}
+
+.alert-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 10px;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+
+  transition: 0.25s;
+
+  cursor: pointer;
+
+  color: #d7e3f4;
+
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.alert-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.alert-dot {
+  width: 8px;
+
+  height: 8px;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+}
+
+.info .alert-dot {
+  background: #42a5f5;
+
+  box-shadow: 0 0 8px #42a5f5;
+}
+
+.success .alert-dot {
+  background: #00e676;
+
+  box-shadow: 0 0 8px #00e676;
+}
+
+.warning .alert-dot {
+  background: #ffca28;
+
+  box-shadow: 0 0 8px #ffca28;
+}
+
+.danger .alert-dot {
+  background: #ff5252;
+
+  box-shadow: 0 0 8px #ff5252;
+}
+
+/* ==========================================================
+   LOGO
+========================================================== */
+
+.logo {
+  height: 80px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  border-bottom: 1px solid var(--border);
+
+  font-size: 24px;
+
+  font-weight: 600;
+
+  color: var(--primary);
+}
+
+.logo i {
+  font-size: 28px;
+}
+
+/* ==========================================================
+   PAGE
+========================================================== */
+
+.main-content{
+
+    /* margin-left:72px; */
+
+    padding:24px;
+
+    flex:1;
+
+    overflow-x:hidden;
+
+    /* overflow-y:auto; */
+
+}
+
+/* ==========================================================
+   TOPBAR
+========================================================== */
+
+.topbar {
+  height: 78px;
+
+  background: var(--topbar);
+
+  border-bottom: 1px solid var(--border);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0 28px;
+}
+
+.page-title {
+  font-size: 25px;
+
+  font-weight: 600;
+}
+
+.topbar-right {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+/* ==========================================================
+   WEATHER
+========================================================== */
+
+.weather-box {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 18px;
+
+  background: #14253b;
+
+  border-radius: 12px;
+}
+
+.weather-box i {
+  color: #ffd54f;
+}
+
+/* ==========================================================
+   CLOCK
+========================================================== */
+
+.clock-box {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  background: #14253b;
+
+  padding:8px 18px;
+
+  border-radius: 12px;
+
+  min-width: 170px;
+}
+
+#currentTime {
+  font-size: 22px;
+
+  font-weight: 600;
+}
+
+#currentDate {
+  font-size: 13px;
+
+  color: var(--text-light);
+}
+
+/* ==========================================================
+   LIVE
+========================================================== */
+
+.live-box {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  background: #14253b;
+
+  padding: 10px 18px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+}
+
+.live-dot {
+  width: 11px;
+
+  height: 11px;
+
+  background: var(--green);
+
+  border-radius: 50%;
+
+  box-shadow: 0 0 12px var(--green);
+
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.content {
+  flex: 1;
+
+  overflow: auto;
+
+  padding: 28px;
+}
+
+/* ==========================================================
+   DASHBOARD HEADING
+========================================================== */
+
+.dashboard-heading {
+  margin-bottom: 22px;
+}
+
+.dashboard-heading h1 {
+  font-size: 30px;
+
+  margin-bottom: 8px;
+}
+
+.dashboard-heading p {
+  color: var(--text-light);
+}
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.dashboard {
+  display: grid;
+
+  gap: 30px;
+
+  margin-top: 30px;
+}
+
+.metrics-grid {
+  grid-template-columns: repeat(4, 1fr);
+
+  margin-bottom: 22px;
+}
+
+/* ==========================================
+   RADAR
+========================================== */
+
+#radarCard {
+  cursor: pointer;
+}
+
+.radar-card {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.radar {
+  width: 180px;
+
+  height: 180px;
+
+  margin: auto;
+
+  position: relative;
+
+  border-radius: 50%;
+
+  background: #04120a;
+
+  border: 2px solid #00ff80;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 0 20px rgba(0, 255, 120, 0.25),
+    inset 0 0 20px rgba(0, 255, 120, 0.15);
+}
+
+.ring {
+  position: absolute;
+
+  border: 1px solid rgba(0, 255, 120, 0.3);
+
+  border-radius: 50%;
+}
+
+.ring1 {
+  width: 60px;
+  height: 60px;
+
+  top: 60px;
+  left: 60px;
+}
+
+.ring2 {
+  width: 110px;
+  height: 110px;
+
+  top: 35px;
+  left: 35px;
+}
+
+.ring3 {
+  width: 160px;
+  height: 160px;
+
+  top: 10px;
+  left: 10px;
+}
+
+.cross {
+  position: absolute;
+
+  background: rgba(0, 255, 120, 0.25);
+}
+
+.horizontal {
+  width: 100%;
+
+  height: 1px;
+
+  top: 50%;
+}
+
+.vertical {
+  width: 1px;
+
+  height: 100%;
+
+  left: 50%;
+}
+
+.radar-center {
+  width: 8px;
+
+  height: 8px;
+
+  background: #00ff80;
+
+  border-radius: 50%;
+
+  position: absolute;
+
+  left: 50%;
+
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  box-shadow: 0 0 15px #00ff80;
+}
+
+.radar-sweep {
+  position: absolute;
+
+  width: 50%;
+
+  height: 2px;
+
+  background: linear-gradient(
+    to right,
+
+    rgba(0, 255, 120, 0.8),
+    rgba(0, 255, 120, 0)
+  );
+
+  left: 50%;
+
+  top: 50%;
+
+  transform-origin: left center;
+
+  animation: radarSweep 4s linear infinite;
+}
+.aircraft-dot {
+  width: 7px;
+
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #00ff80;
+
+  position: absolute;
+
+  animation: pulse 2s infinite;
+}
+
+.a1 {
+  top: 35px;
+
+  left: 70px;
+}
+
+.a2 {
+  top: 70px;
+
+  right: 40px;
+}
+
+.a3 {
+  bottom: 40px;
+
+  left: 55px;
+}
+
+.a4 {
+  bottom: 55px;
+
+  right: 70px;
+}
+
+/* ==========================================================
+   RADAR OPERATIONS
+========================================================== */
+
+.radar-operations {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 20px;
+
+  margin-top: 25px;
+}
+
+.radar-panel {
+  height: 320px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  background: linear-gradient(
+    180deg,
+    rgba(11, 24, 19, 0.95),
+    rgba(8, 18, 14, 0.95)
+  );
+
+  border: 1px solid rgba(0, 255, 120, 0.15);
+
+  box-shadow: 0 0 18px rgba(0, 255, 120, 0.06);
+}
+
+.radar-panel:hover {
+  border-color: rgba(0, 255, 120, 0.35);
+
+  box-shadow: 0 0 22px rgba(0, 255, 120, 0.15);
+}
+
+.panel-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 15px 18px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  color: #5cff9d;
+
+  font-weight: 600;
+
+  letter-spacing: 0.4px;
+
+  background: rgba(0, 255, 120, 0.04);
+}
+
+.panel-header i {
+  font-size: 18px;
+}
+
+.panel-body {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 15px;
+}
+
+/* Scrollbar */
+
+.panel-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+  background: #00c46a;
+
+  border-radius: 10px;
+}
+
+.empty-panel {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.empty-message {
+  text-align: center;
+
+  color: #8ba5a1;
+}
+
+.empty-message i {
+  font-size: 34px;
+
+  color: #00ff80;
+
+  margin-bottom: 15px;
+}
+
+.empty-message p {
+  margin: 0;
+
+  font-size: 14px;
+}
+
+.live-aircraft {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 12px;
+
+  margin-bottom: 10px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  transition: 0.25s;
+
+  cursor: pointer;
+}
+
+.live-aircraft:hover {
+  background: rgba(0, 255, 120, 0.08);
+
+  transform: translateX(5px);
+}
+
+.live-aircraft strong {
+  color: #ffffff;
+
+  font-size: 15px;
+}
+
+.live-aircraft small {
+  color: #86d8b3;
+}
+
+.radar-event {
+  padding: 10px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.radar-event-time {
+  color: #00ff80;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.radar-event-text {
+  color: #d8e4e0;
+
+  margin-top: 4px;
+
+  font-size: 13px;
+}
+
+.details-card {
+  color: #ffffff;
+}
+
+.details-card h3 {
+  margin-bottom: 18px;
+
+  color: #4cff78;
+}
+
+.details-card table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.details-card td {
+  padding: 10px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  font-size: 14px;
+}
+
+.details-card td:first-child {
+  color: #8bb7a3;
+}
+
+.details-card td:last-child {
+  text-align: right;
+
+  font-weight: 600;
+}
+
+/* ===========================
+   Radar Events
+===========================*/
+
+.radar-events {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  height: 100%;
+  overflow-y: auto;
+
+  padding-right: 6px;
+}
+
+.radar-events::-webkit-scrollbar {
+  width: 6px;
+}
+
+.radar-events::-webkit-scrollbar-thumb {
+  background: #1b4b6d;
+  border-radius: 20px;
+}
+
+.event {
+  display: grid;
+
+  grid-template-columns: 70px 30px 1fr;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  border-left: 4px solid;
+
+  border-radius: 8px;
+
+  transition: 0.25s;
+}
+
+.event:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  transform: translateX(4px);
+}
+
+.event-time {
+  color: #8ea9bd;
+
+  font-size: 12px;
+
+  font-family: monospace;
+}
+
+.event-icon {
+  text-align: center;
+
+  font-size: 17px;
+}
+
+.event-text {
+  color: #f5f5f5;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* Severity */
+
+.event.info {
+  border-color: #39b5ff;
+}
+
+.event.success {
+  border-color: #00d26a;
+}
+
+.event.warning {
+  border-color: #ffb400;
+}
+
+.event.danger {
+  border-color: #ff4d4d;
+}
+
+.event.info .event-icon {
+  color: #39b5ff;
+}
+
+.event.success .event-icon {
+  color: #00d26a;
+}
+
+.event.warning .event-icon {
+  color: #ffb400;
+}
+
+.event.danger .event-icon {
+  color: #ff4d4d;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-flight {
+  color: #00e5ff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+}
+
+.event-action {
+  color: #b7c6d4;
+
+  font-size: 12px;
+
+  margin-top: 3px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.event {
+  animation: eventSlide 0.35s ease;
+}
+
+@keyframes eventSlide {
+  from {
+    opacity: 0;
+
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+.radar-trails {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  overflow: visible;
+
+  z-index: 4;
+}
+
+.radar-trails polyline {
+  fill: none;
+
+  stroke: #00ff80;
+
+  stroke-width: 2;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+
+  opacity: 0.45;
+
+  filter: drop-shadow(0 0 5px #00ff80);
+}
+
+.radar-aircraft {
+  z-index: 10;
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.card {
+  background: var(--card);
+
+  border: 1px solid var(--border);
+
+  border-radius: 16px;
+
+  padding: 22px;
+
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--primary);
+
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================================
+   METRIC CARDS
+========================================================== */
+
+.metric-card {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 10px;
+
+  background: var(--primary);
+}
+
+.card-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 12px;
+}
+
+.card-header span {
+  font-size: 15px;
+
+  color: var(--text-light);
+}
+
+.card-header i {
+  font-size: 30px;
+
+  color: var(--primary);
+}
+
+.metric {
+  font-size: 48px;
+
+  font-weight: 700;
+
+  color: var(--primary);
+
+  margin-top: 10px;
+}
+
+.label {
+  margin-top: 10px;
+
+  color: var(--text-light);
+
+  font-size: 14px;
+}
+
+.operational-status {
+  color: var(--green);
+}
+
+/* ==========================================================
+   STYLE.CSS - PART 2
+   Airport Section • Weather • Analytics • Charts
+========================================================== */
+
+/* ==========================================================
+   AIRPORT LAYOUT
+========================================================== */
+
+.airport-card {
+  min-height: 520px;
+}
+
+/* ==========================================================
+   AIRPORT PANEL
+========================================================== */
+
+.airport-panel {
+  min-height: 560px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.section-title {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.section-title h2 {
+  font-size: 24px;
+
+  font-weight: 600;
+}
+
+/* ==========================================================
+   AIRPORT SCENE
+========================================================== */
+
+.airport-scene {
+  flex: 1;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  background: linear-gradient(180deg, #0d2138 0%, #112844 100%);
+
+  border: 1px solid #24415e;
+
+  position: relative;
+}
+
+/* Nice glow */
+
+.airport-scene::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top,
+    rgba(69, 196, 255, 0.08),
+    transparent 60%
+  );
+
+  pointer-events: none;
+}
+
+/* Canvas */
+
+#airportCanvas {
+  width: 100% !important;
+
+  height: 100% !important;
+
+  display: block;
+}
+
+.ground-vehicles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px; /* Space between vehicles */
+  margin-top: 12px;
+}
+
+.vehicle {
+  position: absolute;
+
+  top: 30px;
+
+  font-size: 28px;
+}
+
+.fuel {
+  left: 20%;
+}
+
+.baggage {
+  left: 48%;
+}
+
+.bus {
+  left: 72%;
+}
+
+.vehicle:hover {
+  transform: scale(1.15);
+}
+
+/* ==========================================================
+   WEATHER PANEL
+========================================================== */
+
+.weather-panel {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.weather-panel h3 {
+  margin-bottom: 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--primary);
+}
+
+.weather-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: #1a2e49;
+
+  transition: 0.25s;
+}
+
+.weather-item:hover {
+  background: #234064;
+}
+
+.weather-item span {
+  color: var(--text-light);
+}
+
+.weather-item strong {
+  color: white;
+}
+
+/* ==========================================================
+   ANALYTICS
+========================================================== */
+
+.analytics-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+}
+
+/* ==========================================================
+   CHART CARDS
+========================================================== */
+
+.analytics-grid .card {
+  min-height: 320px;
+}
+
+.analytics-grid h3 {
+  margin-bottom: 18px;
+
+  font-size: 18px;
+}
+
+/* Chart canvas */
+
+.analytics-grid canvas {
+  width: 100% !important;
+
+  height: 240px !important;
+}
+
+/* ==========================================================
+   SMALL TREND CHARTS
+========================================================== */
+
+.metric-card canvas {
+  margin-top: 18px;
+
+  height: 45px !important;
+}
+
+/* ==========================================================
+   STATUS COLORS
+========================================================== */
+
+.status-good {
+  color: #38ff95;
+}
+
+.status-warning {
+  color: #ffcb4d;
+}
+
+.status-danger {
+  color: #ff5f6d;
+}
+
+/* ==========================================================
+   BADGES
+========================================================== */
+
+.badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.badge-green {
+  background: rgba(56, 255, 149, 0.12);
+
+  color: #38ff95;
+}
+
+.badge-yellow {
+  background: rgba(255, 203, 77, 0.12);
+
+  color: #ffcb4d;
+}
+
+.badge-red {
+  background: rgba(255, 95, 109, 0.12);
+
+  color: #ff5f6d;
+}
+
+/* ==========================================================
+   GENERAL CANVAS
+========================================================== */
+
+canvas {
+  user-select: none;
+}
+
+/* ==========================================================
+   TABLE (Future pages)
+========================================================== */
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+th {
+  background: #16304f;
+
+  text-align: left;
+
+  padding: 16px;
+
+  font-weight: 600;
+}
+
+td {
+  padding: 15px;
+
+  border-bottom: 1px solid #203754;
+}
+
+tr:hover {
+  background: #172b45;
+}
+
+/* ==========================================================
+   CUSTOM SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09111c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a466b;
+
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d618f;
+}
+
+/* ==========================================================
+   STYLE.CSS - PART 2
+   Airport Section • Weather • Analytics • Charts
+========================================================== */
+
+/* ==========================================================
+   AIRPORT LAYOUT
+========================================================== */
+
+.airport-layout {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  flex: 1;
+
+  padding: 18px 0;
+
+  gap: 28px;
+}
+
+/* ==========================================================
+   AIRPORT PANEL
+========================================================== */
+
+.airport-panel {
+  min-height: 560px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.section-title {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.section-title h2 {
+  font-size: 24px;
+
+  font-weight: 600;
+}
+
+/* ==========================================
+   AIRPORT OPERATIONS CARD
+========================================== */
+
+.airport-card {
+  min-height: 520px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+/* ==========================================================
+   AIRPORT SCENE
+========================================================== */
+
+.airport-scene {
+  flex: 1;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  background: linear-gradient(180deg, #0d2138 0%, #112844 100%);
+
+  border: 1px solid #24415e;
+
+  position: relative;
+}
+
+/* Nice glow */
+
+.airport-scene::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top,
+    rgba(69, 196, 255, 0.08),
+    transparent 60%
+  );
+
+  pointer-events: none;
+}
+
+/* Canvas */
+
+#airportCanvas {
+  width: 100% !important;
+
+  height: 100% !important;
+
+  display: block;
+}
+
+/* ==========================================================
+   WEATHER PANEL
+========================================================== */
+
+.weather-panel {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.weather-panel h3 {
+  margin-bottom: 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--primary);
+}
+
+.weather-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: #1a2e49;
+
+  transition: 0.25s;
+}
+
+.weather-item:hover {
+  background: #234064;
+}
+
+.weather-item span {
+  color: var(--text-light);
+}
+
+.weather-item strong {
+  color: white;
+}
+
+/* ==========================================================
+   ANALYTICS
+========================================================== */
+
+.analytics-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+}
+
+/* ==========================================================
+   CHART CARDS
+========================================================== */
+
+.analytics-grid .card {
+  min-height: 320px;
+}
+
+.analytics-grid h3 {
+  margin-bottom: 18px;
+
+  font-size: 18px;
+}
+
+/* Chart canvas */
+
+.analytics-grid canvas {
+  width: 100% !important;
+
+  height: 240px !important;
+}
+
+/* ==========================================================
+   SMALL TREND CHARTS
+========================================================== */
+
+.metric-card canvas {
+  margin-top: 18px;
+
+  height: 45px !important;
+}
+
+/* ==========================================================
+   STATUS COLORS
+========================================================== */
+
+.status-good {
+  color: #38ff95;
+}
+
+.status-warning {
+  color: #ffcb4d;
+}
+
+.status-danger {
+  color: #ff5f6d;
+}
+
+/* ==========================================================
+   BADGES
+========================================================== */
+
+.badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.badge-green {
+  background: rgba(56, 255, 149, 0.12);
+
+  color: #38ff95;
+}
+
+.badge-yellow {
+  background: rgba(255, 203, 77, 0.12);
+
+  color: #ffcb4d;
+}
+
+.badge-red {
+  background: rgba(255, 95, 109, 0.12);
+
+  color: #ff5f6d;
+}
+
+/* ==========================================================
+   GENERAL CANVAS
+========================================================== */
+
+canvas {
+  user-select: none;
+}
+
+/* ==========================================================
+   TABLE (Future pages)
+========================================================== */
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+th {
+  background: #16304f;
+
+  text-align: left;
+
+  padding: 16px;
+
+  font-weight: 600;
+}
+
+td {
+  padding: 15px;
+
+  border-bottom: 1px solid #203754;
+}
+
+tr:hover {
+  background: #172b45;
+}
+
+/* ==========================================================
+   CUSTOM SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09111c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a466b;
+
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d618f;
+}
+
+/* ==========================================
+   AIRPORT OPERATIONS LAYOUT
+========================================== */
+
+.airport-apron {
+  display: flex;
+
+  justify-content: space-around;
+
+  align-items: flex-start;
+
+  position: relative;
+
+  padding: 20px 0;
+}
+
+/* ===========================
+   TERMINAL
+=========================== */
+
+.terminal-area {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.terminal-building {
+  text-align: center;
+
+  padding: 18px;
+
+  border-radius: 14px;
+
+  background: linear-gradient(180deg, #4b6584, #34495e);
+
+  color: white;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===========================
+   GATES
+=========================== */
+
+.gate-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+.gate {
+  flex: 1;
+
+  min-height: 200px;
+
+  background: #182235;
+
+  border-radius: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 14px;
+
+  transition: 0.3s;
+}
+
+.gate:hover {
+  transform: translateY(-4px);
+
+  border-color: #4fc3f7;
+}
+
+.gate-name {
+  color: #cfd8dc;
+
+  font-size: 0.82rem;
+
+  letter-spacing: 1px;
+}
+
+.gate-position {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  position: relative;
+}
+
+.gate-position::before {
+  content: "";
+
+  width: 4px;
+
+  height: 30px;
+
+  background: #8fa4b8;
+
+  border-radius: 10px;
+}
+
+/* ===========================
+   GATE LIGHTS
+=========================== */
+
+.gate-light {
+  width: 14px;
+
+  height: 14px;
+
+  border-radius: 50%;
+
+  box-shadow: 0 0 12px currentColor;
+}
+
+.green {
+  background: #00e676;
+  color: #00e676;
+}
+
+.red {
+  background: #ff5252;
+  color: #ff5252;
+}
+
+.amber {
+  background: #ffc107;
+  color: #ffca28;
+}
+
+/* ===========================
+   TAXIWAY
+=========================== */
+
+.taxiway {
+  position: relative;
+
+  height: 90px;
+
+  background: #666;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+.taxi-label {
+  position: absolute;
+
+  top: 8px;
+
+  width: 100%;
+
+  text-align: center;
+
+  color: #fff;
+
+  font-size: 0.75rem;
+
+  letter-spacing: 3px;
+}
+
+/* Yellow center line */
+
+.taxiway::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 50%;
+
+  width: 100%;
+
+  height: 4px;
+
+  background: repeating-linear-gradient(
+    90deg,
+    #ffd54f 0,
+
+    #ffd54f 40px,
+
+    transparent 40px,
+
+    transparent 70px
+  );
+}
+
+/* ===========================
+   RUNWAY
+=========================== */
+
+.runway {
+  position: relative;
+
+  height: 120px;
+
+  background: #202020;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.runway::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 50%;
+
+  width: 100%;
+
+  height: 5px;
+
+  background: repeating-linear-gradient(
+    90deg,
+    white 0,
+
+    white 30px,
+
+    transparent 30px,
+
+    transparent 60px
+  );
+}
+
+.runway-label {
+  position: absolute;
+
+  top: 12px;
+
+  left: 45%;
+
+  color: white;
+
+  letter-spacing: 4px;
+
+  font-size: 0.75rem;
+}
+
+.departing-aircraft {
+  position: absolute;
+
+  left: -80px;
+
+  top: 10px;
+
+  font-size: 42px;
+
+  z-index: 5;
+
+  animation: runwayFlight 14s linear infinite;
+}
+
+/* ===========================
+   AIRCRAFT
+=========================== */
+
+.aircraft {
+  font-size: 60px;
+
+  transform: rotate(-90deg);
+
+  transition: 0.3s;
+}
+
+.aircraft:hover {
+  transform: rotate(-90deg) scale(1.12);
+}
+
+.aircraft.empty {
+  width: 60px;
+
+  height: 60px;
+}
+
+.gate:hover .aircraft {
+  transform: rotate(-90deg) scale(1.12);
+}
+
+.flight-label {
+  font-size: 0.82rem;
+
+  color: #7dd3fc;
+
+  font-weight: 600;
+
+  letter-spacing: 1px;
+}
+
+/* ==========================================
+   RADAR PAGE
+========================================== */
+
+.radar-container {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 30px;
+}
+
+.radar-screen {
+  width: 750px;
+
+  height: 750px;
+
+  position: relative;
+
+  border-radius: 50%;
+
+  background: #03140d;
+
+  border: 3px solid #00ff7f;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 0 30px rgba(0, 255, 120, 0.35),
+    inset 0 0 50px rgba(0, 255, 120, 0.15);
+}
+
+.radar-ring {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(0, 255, 120, 0.25);
+
+  left: 50%;
+
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.ring-1 {
+  width: 120px;
+  height: 120px;
+}
+
+.ring-2 {
+  width: 240px;
+  height: 240px;
+}
+
+.ring-3 {
+  width: 360px;
+  height: 360px;
+}
+
+.ring-4 {
+  width: 500px;
+  height: 500px;
+}
+
+.ring-5 {
+  width: 620px;
+  height: 620px;
+}
+
+.crosshair {
+  position: absolute;
+
+  background: rgba(0, 255, 120, 0.25);
+}
+
+.horizontal {
+  width: 100%;
+
+  height: 1px;
+
+  top: 50%;
+}
+
+.vertical {
+  width: 1px;
+
+  height: 100%;
+
+  left: 50%;
+}
+
+.radar-center {
+  width: 12px;
+
+  height: 12px;
+
+  border-radius: 50%;
+
+  background: #00ff80;
+
+  position: absolute;
+
+  left: 50%;
+
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  box-shadow: 0 0 20px #00ff80;
+}
+
+.direction {
+  position: absolute;
+
+  color: #00ff80;
+
+  font-weight: 600;
+
+  font-size: 18px;
+}
+
+.north {
+  top: 15px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
+.south {
+  bottom: 15px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
+.east {
+  right: 18px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+}
+
+.west {
+  left: 18px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+}
+
+.radar-sweep {
+  position: absolute;
+
+  width: 50%;
+
+  height: 2px;
+
+  left: 50%;
+
+  top: 50%;
+
+  transform-origin: left center;
+
+  background: linear-gradient(
+    to right,
+    rgba(0, 255, 120, 0.9),
+    rgba(0, 255, 120, 0)
+  );
+
+  animation: radarRotate 4s linear infinite;
+}
+
+/* ==========================================
+   AIRCRAFT TARGETS
+========================================== */
+
+.radar-aircraft {
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  color: #00ff80;
+
+  font-size: 11px;
+
+  z-index: 20;
+
+  pointer-events: none;
+}
+
+.aircraft-icon {
+  width: 30px;
+
+  height: 30px;
+
+  display: flex;
+
+  object-fit: contain;
+
+  justify-content: center;
+
+  align-items: center;
+
+  transition: transform 0.2s linear;
+}
+
+.aircraft-icon img {
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+
+  filter: drop-shadow(0 0 4px #00ff80);
+}
+
+.a1 {
+  top: 110px;
+
+  left: 240px;
+}
+
+.a1 .aircraft-icon {
+  transform: rotate(45deg);
+}
+
+.a2 {
+  top: 180px;
+
+  right: 120px;
+}
+
+.a2 .aircraft-icon {
+  transform: rotate(120deg);
+}
+
+.a3 {
+  top: 330px;
+
+  left: 120px;
+}
+
+.a3 .aircraft-icon {
+  transform: rotate(-20deg);
+}
+
+.a4 {
+  bottom: 170px;
+
+  right: 170px;
+}
+
+.a4 .aircraft-icon {
+  transform: rotate(-135deg);
+}
+
+.a5 {
+  bottom: 100px;
+
+  left: 250px;
+}
+
+.a5 .aircraft-icon {
+  transform: rotate(210deg);
+}
+
+.a6 {
+  top: 260px;
+
+  right: 250px;
+}
+
+.a6 .aircraft-icon {
+  transform: rotate(300deg);
+}
+
+@keyframes radarBlink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes radarRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+}
+
+@keyframes runwayFlight {
+  /* Final approach */
+  0% {
+    left: -80px;
+    top: 8%;
+    transform: rotate(-300deg);
+  }
+
+  10% {
+    left: 2%;
+    top: 12%;
+    transform: rotate(-303deg);
+  }
+
+  20% {
+    left: 12%;
+    top: 18%;
+    transform: rotate(-307deg);
+  }
+
+  30% {
+    left: 22%;
+    top: 24%;
+    transform: rotate(-311deg);
+  }
+
+  /* Touchdown */
+  38% {
+    left: 32%;
+    top: 27%;
+    transform: rotate(-314deg);
+  }
+
+  /* Align with runway */
+  45% {
+    left: 42%;
+    top: 27%;
+    transform: rotate(-315deg);
+  }
+
+  /* Rolling */
+  55% {
+    left: 55%;
+    top: 27%;
+    transform: rotate(-315deg);
+  }
+
+  60% {
+    left: 62%;
+    top: 27%;
+    transform: rotate(-315deg);
+  }
+
+  65% {
+    left: 68%;
+    top: 27%;
+    transform: rotate(-315deg);
+  }
+
+  /* Start rotation a little earlier */
+  70% {
+    left: 74%;
+    top: 26.5%;
+    transform: rotate(-318deg);
+  }
+
+  75% {
+    left: 80%;
+    top: 21%;
+    transform: rotate(-323deg);
+  }
+
+  80% {
+    left: 86%;
+    top: 17%;
+    transform: rotate(-328deg);
+  }
+
+  86% {
+    left: 93%;
+    top: 14%;
+    transform: rotate(-330deg);
+  }
+
+  92% {
+    left: 100%;
+    top: 10%;
+    transform: rotate(-345deg);
+  }
+
+  100% {
+    left: 112%;
+    top: 7%;
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(-3%, -2%) scale(1.05);
+  }
+
+  50% {
+    transform: translate(2%, 3%) scale(1.08);
+  }
+
+  75% {
+    transform: translate(4%, -1%) scale(1.04);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes backgroundFloat {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-2%, -1%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ==========================================================
+   NAVIGATION RAIL
+========================================================== */
+
+.nav-rail {
+  position: fixed;
+
+  top: 0;
+  
+  left: 0;
+
+  width: 72px;
+
+  bottom:0;
+
+  background: #162331;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  z-index: 1000;
+}
+
+/* ==========================================================
+   LOGO
+========================================================== */
+
+.nav-logo {
+  width: 100%;
+
+  height: 72px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-logo a {
+  width: 46px;
+
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+
+  color: #6fd3ff;
+
+  font-size: 24px;
+
+  transition: 0.25s;
+
+  transform: rotate(-12deg);
+}
+
+.nav-logo a:hover {
+  background: #22384d;
+}
+
+/* ==========================================================
+   MENU
+========================================================== */
+
+.nav-menu {
+  width: 100%;
+
+  scrollbar-width: thin;
+
+  scrollbar-color: #4d6b85 transparent;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 18px 0;
+}
+.nav-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+  background: #3a5168;
+
+  border-radius: 10px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb:hover {
+  background: #5a7fa0;
+}
+
+/* Push bottom menu to bottom */
+
+.nav-footer {
+  margin-top: auto;
+
+  width: 100%;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 20px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-footer a {
+  position: relative;
+
+  width: 48px;
+
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+  color: #97a9bb;
+
+  border-radius: 12px;
+
+  font-size: 20px;
+
+  transition: 0.25s;
+}
+
+.nav-footer a:hover {
+  background: #233b52;
+
+  color: #6fd3ff;
+}
+
+/* ==========================================================
+   NAVIGATION BUTTON
+========================================================== */
+
+.nav-menu a {
+  width: 48px;
+
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+  color: #97a9bb;
+
+  border-radius: 12px;
+
+  font-size: 20px;
+
+  transition: 0.25s;
+
+  position: relative;
+}
+
+.nav-menu a,
+.nav-footer a {
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* ==========================================================
+   NAVIGATION TOOLTIPS
+========================================================== */
+
+.nav-menu a::after,
+.nav-footer a::after {
+  content: attr(data-title);
+
+  position: absolute;
+
+  left: 60px;
+
+  top: 50%;
+
+  transform: translateY(-50%) translateX(-8px);
+
+  background: #1f2d3d;
+
+  border: 1px solid rgba(111, 211, 255, 0.25);
+
+  color: #ffffff;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+
+  z-index: 2000;
+}
+
+.nav-menu a:hover::after,
+.nav-footer a:hover::after {
+  opacity: 1;
+
+  visibility: visible;
+
+  transform: translateY(-50%) translateX(0);
+}
+
+.nav-menu a::before,
+.nav-footer a::before {
+  content: "";
+
+  position: absolute;
+
+  left: 54px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: 6px solid transparent;
+
+  border-right-color: #243447;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  transition: 0.2s;
+
+  z-index: 9999;
+}
+
+.nav-menu a:hover::before,
+.nav-footer a:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-menu a:hover {
+  background: #233b52;
+  color: #6fd3ff;
+}
+
+.nav-menu a.active,
+.nav-footer a.active {
+  background: #21394d;
+
+  color: #6fd3ff;
+
+  box-shadow:
+    inset 3px 0 0 #59d2ff,
+    0 0 12px rgba(89, 210, 255, 0.15);
+
+  animation: navActive 0.25s ease;
+}
+
+@keyframes navActive {
+  from {
+    transform: scale(0.92);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+
+/* ==========================================================
+   LOADING OVERLAY
+========================================================== */
+
+.loading-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(8,15,28,.78);
+
+    backdrop-filter:blur(6px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s ease;
+
+}
+
+.loading-overlay.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ==========================================================
+   FLIGHT PATH
+========================================================== */
+
+.loader-animation{
+
+    width:420px;
+
+    margin-bottom:30px;
+
+}
+
+.flight-path{
+
+    position:relative;
+
+    width:100%;
+
+    height:48px;
+
+}
+
+/* ==========================================================
+   START DOT
+========================================================== */
+
+.path-start{
+
+    position:absolute;
+
+    left:0;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:14px;
+
+    height:14px;
+
+    border-radius:50%;
+
+    background:#58d0ff;
+
+    box-shadow:0 0 14px #58d0ff;
+
+}
+
+/* ==========================================================
+   DASHED PATH
+========================================================== */
+
+.path-line{
+
+    position:absolute;
+
+    left:16px;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    border-top:2px dashed rgba(255,255,255,.7);
+
+}
+
+/* ==========================================================
+   AIRPLANE
+========================================================== */
+
+.airplane-loader{
+
+    position:absolute;
+
+    top:10%;
+
+    left:16px;
+
+    transform:translateY(-50%) rotate(360deg);
+
+    font-size:46px;
+
+    color:white;
+
+    filter:drop-shadow(0 0 12px rgba(88,208,255,.7));
+
+    animation:flyPlane 1.5s linear infinite;
+
+}
+
+.airplane-loader::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    right:34px;
+
+    transform:translateY(-50%);
+
+    width:90px;
+
+    height:4px;
+
+    border-radius:10px;
+
+    background:linear-gradient(
+        to left,
+        rgba(89,210,255,.9),
+        rgba(89,210,255,.15),
+        transparent
+    );
+
+}
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+@keyframes flyPlane{
+
+    0%{
+        transform:translate(0,-50%) rotate(360deg);
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    90%{
+        transform:translate(344px,-50%) rotate(360deg);
+        opacity:1;
+    }
+
+    100%{
+        transform:translate(344px,-50%) rotate(360deg);
+        opacity:0;
+    }
+
+}
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.loading-overlay h2{
+
+    color:#fff;
+
+    font-size:36px;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+.loading-overlay p{
+
+    color:#59d2ff;
+
+    font-size:18px;
+
+}

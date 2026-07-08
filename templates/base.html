@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        Airport Operations Control Center
+        {% endblock %}
+    </title>
+
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+
+    <link rel="alternate icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Page Specific CSS -->
+    {% block head %}
+    {% endblock %}
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navigation Rail -->
+    {% include 'partials/navigation.html' %}
+
+    <div class="app-container">
+
+        <!-- Topbar -->
+        {% set page_title = self.page_title() %}
+        {% include "partials/topbar.html" %}
+
+        <!-- Main Page Content -->
+        <main class="main-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+    </div>
+
+    <!-- Common JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+
+    {% block scripts %}
+    {% endblock %}
+
+<!-- ========================================= -->
+<!-- Global Loading Overlay -->
+<!-- ========================================= -->
+
+<div id="loadingOverlay" class="loading-overlay">
+
+    <div class="loader-animation">
+
+        <div class="flight-path">
+
+            <div class="path-start"></div>
+
+            <div class="path-line"></div>
+
+            <i class="fa-solid fa-plane airplane-loader"></i>
+
+        </div>
+
+    </div>
+
+    <h2 id="loadingTitle">Refreshing Flights</h2>
+
+    <p id="loadingSubtitle">
+        Generating latest flight information...
+    </p>
+
+</div>
+
+</body>
+
+</html>
