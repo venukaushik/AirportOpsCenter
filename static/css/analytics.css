@@ -215,23 +215,59 @@
 ========================================================== */
 
 .analytics-card {
-  background: linear-gradient(180deg, #17293d, #122031);
 
-  border: 1px solid rgba(111, 211, 255, 0.1);
+    position: relative;
 
-  border-radius: 18px;
+    overflow: hidden;
 
-  padding: 22px;
+    background: rgba(23, 41, 61, 0.65);
 
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(18px);
 
-  transition: 0.25s ease;
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(101,184,236,.18);
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.06);
+
+    transition: .3s ease;
+
 }
 
 .analytics-card:hover {
-  border-color: rgba(89, 210, 255, 0.3);
+    transform:translateY(-4px);
 
-  transform: translateY(-3px);
+    border-color:rgba(101,184,236,.45);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.15),
+        0 0 25px rgba(79,195,247,.12);
+}
+
+.analytics-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:inherit;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.08),
+        rgba(255,255,255,0) 45%
+    );
+
+    pointer-events:none;
+
 }
 
 /* ==========================================================
@@ -294,6 +330,68 @@
    Route
 ========================================================== */
 
+
+.route-row{
+
+    display:grid;
+
+    grid-template-columns:120px 1fr 40px;
+
+    gap:15px;
+
+    align-items:center;
+
+    margin:14px 0;
+
+}
+
+.route-name{
+
+    font-weight:600;
+
+    color:#d9e8ff;
+
+}
+
+.route-bar{
+
+    height:10px;
+
+    background:#1d3349;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+}
+
+.route-progress{
+
+    height:100%;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        #06b6d4,
+        #3b82f6,
+        #8b5cf6
+    );
+
+    transition:width .8s ease;
+
+}
+
+.route-count{
+
+    text-align:right;
+
+    font-weight:700;
+
+    color:#7dd3fc;
+
+}
+
 .route-item {
   display: flex;
 
@@ -343,7 +441,7 @@
 .analytics-card canvas {
   width: 100% !important;
 
-  height: 280px !important;
+  height: 290px !important;
 }
 
 /* ==========================================================
@@ -418,20 +516,18 @@
   line-height: 1.6;
 }
 
-.insight-card::before{
+.insight-card::before {
+  content: "";
 
-    content:"";
+  position: absolute;
 
-    position:absolute;
+  left: 0;
 
-    left:0;
+  top: 0;
 
-    top:0;
+  width: 5px;
 
-    width:5px;
+  height: 100%;
 
-    height:100%;
-
-    background:#59d2ff;
-
+  background: #59d2ff;
 }

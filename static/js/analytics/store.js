@@ -1,49 +1,43 @@
-// ===============================
-// Analytics Store
-// ===============================
+/* ============================================================
+   ANALYTICS MODULE - STORE
+   store.js
+   ============================================================ */
 
 export const analyticsStore = {
 
-    // Raw flight data
-    flights: [],
+    summary: {
 
-    // Filtered flights
-    filteredFlights: [],
-
-    // KPI values
-    kpis: {
         totalFlights: 0,
         arrivals: 0,
         departures: 0,
         delayed: 0,
-        cancelled: 0,
-        onTimePercentage: 0
+        onTime: 0,
+        cancelled: 0
+
     },
 
-    // Charts
-    charts: {
-        hourlyTraffic: null,
-        airlineDistribution: null,
-        delayReasons: null,
-        runwayUsage: null
-    },
+charts: {
 
-    // Route statistics
-    routes: [],
+    hourlyTraffic: [],
 
-    // Airline statistics
-    airlines: [],
+    airlineTraffic: [],
 
-    // Delay statistics
-    delays: [],
+    statusDistribution: [],
 
-    // Runway statistics
-    runways: [],
+    aircraftDistribution: [],
 
-    // Peak hour information
-    peakHours: [],
+    otp: {},
 
-    // Analytics insights
+    terminalTraffic: {},
+
+    delayDistribution:{},
+
+    passengerTraffic: [],
+    
+    topRoutes: []
+
+},
+
     insights: []
 
 };
